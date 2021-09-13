@@ -1,0 +1,105 @@
+x-service: &common-dev-test
+  build:
+    context: .
+    target: build
+  working_dir: /src
+  volumes:
+    - .:/src
+    - kubernetes-config:/tmp/kubernetes:z
+    - /home/tons/IdeaProjects/dhis2/dhis2-infrastructure/services/instance-cluster/kubeconfig_instance-cluster-test:/kubernetes/config
+  env_file:
+    - .env
+  depends_on:
+    - rabbitmq
+
+version: "3.6"
+services:
+  prod:
+    image: dhis2/instance-inspector:${IMAGE_TAG:-latest}
+    build: .
+
+  test:
+    command: /bin/sh -c 'go test -v ./...'
+    <<: *common-dev-test
+
+  dev:
+    command: reflex -r "\.go$$" -s -- sh -c "go run ./cmd/inspect"
+    <<: *common-dev-test
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  database:
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - instance-manager-database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+  redis:
+    image: redis:6.2.5-alpine3.14
+    ports:
+      - "6379:6379"
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8001:8001"
+
+  kubernetes-init:
+    build:
+      dockerfile: Dockerfile.init
+    volumes:
+      - kubernetes-config:/tmp/kubernetes:z
+      - ./scripts/init-local.sh:/scripts/init-local.sh
+    command: /scripts/init-local.sh
+    env_file:
+      - .env
+
+  kubernetes:
+    image: rancher/k3s:v1.21.3-k3s1
+    privileged: true
+    command: server
+    tmpfs:
+      - /run
+      - /var/run
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+    ports:
+      - "6443:6443"
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./k3s-storage:/var/lib/rancher/k3s/storage:Z
+      - kubernetes-config:/tmp/kubernetes:z
+    environment:
+      K3S_KUBECONFIG_OUTPUT: /tmp/kubernetes/k3s.yaml
+      K3S_KUBECONFIG_MODE: 666
+
+  instance-manager:
+    # TODO: Don't use latest
+    image: tons/dhis2-instance-manager-api:latest
+    volumes:
+      - ./rsa_private.pem:/rsa_private.pem
+      - ./rsa_public.pem:/rsa_public.pem
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - database
+      - kubernetes
+      - rabbitmq
+
+volumes:
+  instance-manager-database: { }
+  kubernetes-config: { }

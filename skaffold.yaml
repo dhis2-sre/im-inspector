@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+build:
+  artifacts:
+    - image: tons/dhis2-instance-inspector-skaffold
+deploy:
+#  kubeContext: default
+  helm:
+    releases:
+      - name: inspector
+        namespace: instance-manager
+        createNamespace: true
+        chartPath: ./helm
+        artifactOverrides:
+          imageRepository: "tons/dhis2-instance-inspector-skaffold"
+        valuesFiles:
+          - ./skaffold-values.yaml
+        setValueTemplates:
+          rabbitMqUrl: "{{ .RABBITMQ_URL }}"

@@ -1,0 +1,13 @@
+fullnameOverride: instance-inspector
+
+deployableNamespaces:
+  - whoami
+  - play
+  - qa
+  - dev
+
+imagePullPolicy: Always
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::767224633206:role/inspector-pod-test"

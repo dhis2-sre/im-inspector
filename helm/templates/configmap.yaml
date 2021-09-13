@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "instance-inspector.fullname" . }}
+  labels:
+  {{- include "instance-inspector.labels" . | nindent 4 }}
+data:
+  RABBITMQ_URL: {{ .Values.rabbitMqUrl }}
+  DEPLOYABLE_NAMESPACES: {{ join "," .Values.deployableNamespaces | quote }}
