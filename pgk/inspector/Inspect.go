@@ -17,7 +17,7 @@ func ProvideInspector(handlers []handler.PodHandler, configuration config.Config
 }
 
 type inspector struct {
-	handlers []handler.PodHandler
+	handlers      []handler.PodHandler
 	configuration config.Configuration
 }
 
@@ -27,6 +27,7 @@ func (i inspector) Inspect() {
 	handlerMap := i.createHandlersByLabelMap()
 	log.Printf("Found %d handlers", len(i.handlers))
 
+	log.Println("Searching for pods...")
 	pods, err := cluster.GetPods(i.configuration)
 	if err != nil {
 		log.Fatalln(err)

@@ -1,0 +1,35 @@
+environments:
+  dev:
+    values:
+      - kubeContext: eks_instance-cluster-tons
+      - instanceInspector:
+          installed: true
+          name: instance-inspector-dev
+  prod:
+    values:
+      - kubeContext: eks_instance-cluster-tons
+      - instanceInspector:
+          installed: true
+          name: instance-inspector
+  feature:
+    values:
+      - kubeContext: eks_instance-cluster-tons
+      - instanceInspector:
+          installed: true
+          name: instance-inspector-{{ env "FEATURE_TAG" | default "feature" }}
+
+releases:
+  - name: {{ .Values.instanceInspector.name }}
+    namespace: instance-manager-{{ .Environment.Name }}
+    createNamespace: true
+    chart: helm/chart
+    installed: {{ .Values.instanceInspector.installed }}
+    kubeContext: {{ .Values.kubeContext }}
+    secrets:
+      - helm/data/secrets/{{ .Environment.Name }}/instance-inspector.yaml
+    values:
+      - helm/data/values/{{ .Environment.Name }}/instance-inspector.yaml
+
+repositories:
+  - name: tons
+    url: https://helm-charts.fitfit.dk

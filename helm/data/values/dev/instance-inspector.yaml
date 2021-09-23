@@ -1,0 +1,14 @@
+image:
+  tag: latest
+  pullPolicy: Always
+
+fullnameOverride: instance-inspector
+
+serviceAccount:
+  annotations:
+    # TODO: Create roles for each environment
+    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/inspector-pod-test
+
+deployableNamespaces:
+  - whoami
+  - whoami-dev

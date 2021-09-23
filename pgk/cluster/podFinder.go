@@ -20,6 +20,7 @@ func GetPods(configuration config.Configuration) ([]v1.Pod, error) {
 
 	var pods []v1.Pod
 	for _, namespace := range configuration.DeployableNamespaces {
+		log.Printf("Querying: %s", namespace)
 		list, err := client.CoreV1().Pods(namespace).List(context.TODO(), listOptions)
 		if err != nil {
 			return nil, err

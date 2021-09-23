@@ -1,0 +1,15 @@
+imageRepository: dhis2/instance-inspector
+imagePullPolicy: Always
+
+fullnameOverride: instance-inspector
+
+serviceAccount:
+  annotations:
+    # TODO: Create roles for each environment
+    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/inspector-pod-test
+
+deployableNamespaces:
+  - whoami
+  - qa
+  - play
+  - dev
