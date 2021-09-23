@@ -1,5 +1,5 @@
 imageRepository: dhis2/instance-inspector
-imagePullPolicy: Always
+imagePullPolicy: IfNotPresent
 
 fullnameOverride: instance-inspector
 
