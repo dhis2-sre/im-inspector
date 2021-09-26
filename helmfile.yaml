@@ -28,7 +28,6 @@ releases:
     secrets:
       - helm/data/secrets/{{ .Environment.Name }}/instance-inspector.yaml
     values:
-      - environment: {{ .Environment.Name }}
       - helm/data/values/{{ .Environment.Name }}/instance-inspector.yaml
 
 repositories:

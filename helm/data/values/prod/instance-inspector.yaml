@@ -1,8 +1,6 @@
 imageRepository: dhis2/instance-inspector
 imagePullPolicy: IfNotPresent
 
-fullnameOverride: instance-inspector
-
 serviceAccount:
   annotations:
     # TODO: Create roles for each environment

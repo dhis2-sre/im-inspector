@@ -1,15 +1,9 @@
 {{- $root := . -}}
-{{- $environment := "" }}
-{{- if .Values.environment }}
-{{- $environment = printf "%s-%s" "-" .Values.environment }}
-{{- else }}
-{{- $environment = "" }}
-{{- end }}
 {{- range $namespace := .Values.deployableNamespaces }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ include "instance-inspector.fullname" $root }}{{ $environment }}
+  name: {{ include "instance-inspector.fullname" $root }}
   namespace: {{ $namespace }}
   labels:
   {{- include "instance-inspector.labels" $root | nindent 4 }}
