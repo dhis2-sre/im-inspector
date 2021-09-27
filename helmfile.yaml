@@ -1,19 +1,19 @@
 environments:
   dev:
     values:
-      - kubeContext: eks_instance-cluster-tons
+      - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
           name: instance-inspector-dev
   prod:
     values:
-      - kubeContext: eks_instance-cluster-tons
+      - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
           name: instance-inspector
   feature:
     values:
-      - kubeContext: eks_instance-cluster-tons
+      - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
           name: instance-inspector-{{ env "FEATURE_TAG" | default "feature" }}
