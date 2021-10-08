@@ -34,6 +34,7 @@ func ProvideHandlers(configuration config.Configuration) []handler.PodHandler {
 	return []handler.PodHandler{
 		handler.ProvideTTLDestroyHandler(&producer),
 		handler.ProvideTTLWarningHandler(&producer),
+		handler.ProvideDestroyBranchlessFeatureInstance(&producer, &configuration),
 		handler.ProvideIdHandler(),
 	}
 }
