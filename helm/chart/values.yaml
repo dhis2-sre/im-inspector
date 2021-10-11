@@ -6,11 +6,15 @@ replicaCount: 1
 
 deployableNamespaces: []
 
-rabbitMqUrl: ""
+rabbitMq:
+  host: rabbitmq.insance-manager.svc.cluster.local
+  port: 5672
+  username: guest
+  password: guest
 
 schedule: "*/5 * * * *"
 
-imageRepository: tons/dhis2-instance-inspector
+imageRepository: dhis2/instance-inspector
 imagePullPolicy: IfNotPresent
 
 imagePullSecrets: []

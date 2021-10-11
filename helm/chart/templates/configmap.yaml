@@ -5,5 +5,4 @@ metadata:
   labels:
   {{- include "instance-inspector.labels" . | nindent 4 }}
 data:
-  RABBITMQ_URL: {{ .Values.rabbitMqUrl }}
   DEPLOYABLE_NAMESPACES: {{ join "," .Values.deployableNamespaces | quote }}

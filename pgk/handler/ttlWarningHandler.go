@@ -12,12 +12,12 @@ const (
 	TtlWarning = "ttl-warning"
 )
 
-func ProvideTTLWarningHandler(producer queue.Producer) PodHandler {
+func ProvideTTLWarningHandler(producer *queue.Producer) PodHandler {
 	return ttlWarningHandler{producer}
 }
 
 type ttlWarningHandler struct {
-	producer queue.Producer
+	producer *queue.Producer
 }
 
 func (t ttlWarningHandler) Supports() string {

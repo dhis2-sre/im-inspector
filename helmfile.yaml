@@ -1,0 +1,40 @@
+environments:
+  dev:
+    values:
+      - kubeContext: eks_instance-cluster-test
+      - instanceInspector:
+          installed: true
+          name: instance-inspector-dev
+  prod:
+    values:
+      - kubeContext: eks_instance-cluster-test
+      - instanceInspector:
+          installed: true
+          name: instance-inspector-prod
+  feature:
+    values:
+      - kubeContext: eks_instance-cluster-test
+      - instanceInspector:
+          installed: true
+          name: instance-inspector-feat{{ env "FEATURE_TAG" | lower | default "feature" }}
+
+releases:
+  - name: {{ .Values.instanceInspector.name }}
+    namespace: instance-manager-{{ .Environment.Name }}
+    createNamespace: true
+    chart: helm/chart
+    installed: {{ .Values.instanceInspector.installed }}
+    kubeContext: {{ .Values.kubeContext }}
+    secrets:
+      - helm/data/secrets/{{ .Environment.Name }}/instance-inspector.yaml
+    values:
+      - helm/data/values/{{ .Environment.Name }}/instance-inspector.yaml
+{{- if eq .Environment.Name "feature" }}
+    set:
+      - name: rabbitMq.host
+        value: rabbitmq{{ env "FEATURE_TAG" | default "" }}.instance-manager-feature.svc.cluster.local
+{{- end }}
+
+repositories:
+  - name: tons
+    url: https://helm-charts.fitfit.dk

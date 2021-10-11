@@ -88,7 +88,7 @@ services:
 
   instance-manager:
     # TODO: Don't use latest
-    image: tons/dhis2-instance-manager-api:latest
+    image: dhis2/instance-manager-api:latest
     volumes:
       - ./rsa_private.pem:/rsa_private.pem
       - ./rsa_public.pem:/rsa_public.pem
