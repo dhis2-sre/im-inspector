@@ -1,3 +1,7 @@
+image:
+  tag: latest
+  pullPolicy: Always
+
 deployableNamespaces:
   - whoami
   - whoami-dev
