@@ -9,22 +9,22 @@ import (
 )
 
 const (
-	TtlDestroy  = "ttl-destroy"
+	TtlDestroy = "ttl-destroy"
 )
 
-func ProvideTTLDestroyHandler(producer queue.Producer) PodHandler {
-	return TtlDestroyHandler{producer}
+func ProvideTTLDestroyHandler(producer *queue.Producer) PodHandler {
+	return ttlDestroyHandler{producer}
 }
 
-type TtlDestroyHandler struct {
-	producer queue.Producer
+type ttlDestroyHandler struct {
+	producer *queue.Producer
 }
 
-func (t TtlDestroyHandler) Supports() string {
+func (t ttlDestroyHandler) Supports() string {
 	return "dhis2-ttl"
 }
 
-func (t TtlDestroyHandler) Handle(pod v1.Pod) error {
+func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
 	ttl := pod.Labels["dhis2-ttl"]
 	log.Printf("!!!!!TTL: \"%s\"", ttl)
@@ -41,7 +41,7 @@ func (t TtlDestroyHandler) Handle(pod v1.Pod) error {
 	return nil
 }
 
-func (t TtlDestroyHandler) ttlBeforeNow(ttl string) bool {
+func (t ttlDestroyHandler) ttlBeforeNow(ttl string) bool {
 	ttlInt, err := strconv.ParseInt(ttl, 10, 64)
 	if err != nil {
 		log.Println(err)
