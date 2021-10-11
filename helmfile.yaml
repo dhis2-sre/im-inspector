@@ -33,8 +33,6 @@ releases:
     set:
       - name: rabbitMq.host
         value: rabbitmq{{ env "FEATURE_TAG" | default "" }}.instance-manager-feature.svc.cluster.local
-      - name: imagePullPolicy
-        value: Always
 {{- end }}
 
 repositories:
