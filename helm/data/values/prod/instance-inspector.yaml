@@ -1,0 +1,5 @@
+deployableNamespaces:
+  - whoami
+  - dev
+  - play
+  - qa
