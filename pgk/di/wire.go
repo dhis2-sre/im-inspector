@@ -30,7 +30,7 @@ func GetEnvironment() Environment {
 }
 
 func ProvideHandlers(configuration config.Configuration) []handler.PodHandler {
-	producer := queue.ProvideProducer(configuration.RabbitMqURL)
+	producer := queue.ProvideProducer(configuration.RabbitMq.GetUrl())
 	return []handler.PodHandler{
 		handler.ProvideTTLDestroyHandler(&producer),
 		handler.ProvideTTLWarningHandler(&producer),

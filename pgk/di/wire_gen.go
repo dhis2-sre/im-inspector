@@ -34,6 +34,6 @@ func ProvideEnvironment(inspector2 inspector.Inspector, handlers []handler.PodHa
 }
 
 func ProvideHandlers(configuration config.Configuration) []handler.PodHandler {
-	producer := queue.ProvideProducer(configuration.RabbitMqURL)
+	producer := queue.ProvideProducer(configuration.RabbitMq.GetUrl())
 	return []handler.PodHandler{handler.ProvideTTLDestroyHandler(&producer), handler.ProvideTTLWarningHandler(&producer), handler.ProvideIdHandler()}
 }
