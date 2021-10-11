@@ -36,6 +36,8 @@ spec:
               envFrom:
                 - configMapRef:
                     name: {{ include "instance-inspector.fullname" . }}
+                - secretRef:
+                    name: {{ include "instance-inspector.fullname" . }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
