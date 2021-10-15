@@ -28,5 +28,6 @@ clean:
 
 keys:
 	echo "no keys needed"
+	touch rsa_private.pem
 
 .PHONY: build-image push-image di build-dev launch-dev build-test test clean keys
