@@ -5,3 +5,7 @@ image:
 deployableNamespaces:
   - whoami
   - whoami-dev
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-instance-inspector-feature
