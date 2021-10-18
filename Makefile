@@ -4,6 +4,11 @@ clean-cmd = docker compose down --remove-orphans --volumes
 prod-image:
 	IMAGE_TAG=$(tag) docker compose build prod
 
+smoke-test:
+	docker compose up -d rabbitmq
+	sleep 3
+	IMAGE_TAG=$(tag) docker compose up -d prod
+
 build-dev-image:
 	IMAGE_TAG=$(tag) docker compose build dev
 
