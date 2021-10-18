@@ -1,7 +1,7 @@
 tag ?= latest
 clean-cmd = docker compose down --remove-orphans --volumes
 
-build-image:
+prod-image:
 	IMAGE_TAG=$(tag) docker compose build prod
 
 build-dev-image:
@@ -27,7 +27,7 @@ clean:
 	$(clean-cmd)
 
 keys:
-	openssl genpkey -algorithm RSA -out ./rsa_private.pem -pkeyopt rsa_keygen_bits:2048
-	openssl rsa -in ./rsa_private.pem -pubout -out ./rsa_public.pem
+	echo "no keys needed"
+	touch rsa_private.pem
 
 .PHONY: build-image push-image di build-dev launch-dev build-test test clean keys
