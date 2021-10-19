@@ -17,6 +17,10 @@ services:
   prod:
     image: dhis2/instance-inspector:${IMAGE_TAG:-latest}
     build: .
+    env_file:
+      - .env
+    volumes:
+      - ./k3s.yaml:/kubernetes/config
 
   test:
     command: /bin/sh -c 'go test -v ./...'
