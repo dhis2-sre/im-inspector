@@ -5,9 +5,13 @@ prod-image:
 	IMAGE_TAG=$(tag) docker compose build prod
 
 smoke-test:
-	docker compose up -d rabbitmq
-	sleep 3
+	docker compose up -d rabbitmq kubernetes
+	sleep 5
+	# TODO: Use z.$$ for file name
+	docker compose cp kubernetes:/tmp/kubernetes/k3s.yaml ./k3s.yaml
+	yq e -i ".clusters[0].cluster.server = \"https://kubernetes:6443\"" ./k3s.yaml
 	IMAGE_TAG=$(tag) docker compose up -d prod
+	docker compose logs -f prod
 
 build-dev-image:
 	IMAGE_TAG=$(tag) docker compose build dev
