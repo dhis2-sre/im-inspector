@@ -14,7 +14,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@feature/ci-sleep-test
+    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@master
     with:
       RUN_PID_1_TEST: false
       DOCKER_IMAGE_NAME: dhis2/instance-inspector
