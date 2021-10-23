@@ -14,7 +14,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@master
+    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@feature/restart-pods
     with:
       RUN_PID_1_TEST: false
       PROCESS_NAME: instance-inspector
