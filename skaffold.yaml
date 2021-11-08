@@ -2,18 +2,19 @@ apiVersion: skaffold/v2beta21
 kind: Config
 build:
   artifacts:
-    - image: tons/dhis2-instance-inspector-skaffold
+    - image: dhis2/instance-inspector
 deploy:
-#  kubeContext: default
   helm:
     releases:
-      - name: inspector
-        namespace: instance-manager
-        createNamespace: true
-        chartPath: ./helm
+      - name: instance-inspector-feature
+        namespace: instance-manager-feature
+        chartPath: helm/chart
         artifactOverrides:
-          imageRepository: "tons/dhis2-instance-inspector-skaffold"
+          imageRepository: dhis2/instance-inspector
+        useHelmSecrets: true
         valuesFiles:
-          - ./skaffold-values.yaml
-        setValueTemplates:
-          rabbitMqUrl: "{{ .RABBITMQ_URL }}"
+          - helm/data/secrets/feature/instance-inspector.yaml
+          - helm/data/values/feature/instance-inspector.yaml
+        # TODO: Retrieve feature tag from env - https://skaffold.dev/docs/references/yaml/#deploy-helm-releases-setValueTemplates
+        setValues:
+          rabbitMq.host: rabbitmq-snapshot.instance-manager-feature.svc.cluster.local
