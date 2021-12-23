@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta21
+apiVersion: skaffold/v2beta25
 kind: Config
 build:
   artifacts:
@@ -6,15 +6,22 @@ build:
 deploy:
   helm:
     releases:
-      - name: instance-inspector-feature
-        namespace: instance-manager-feature
+      - name: instance-inspector-{{ .ENVIRONMENT }}
+        namespace: instance-manager-{{ .ENVIRONMENT }}
         chartPath: helm/chart
         artifactOverrides:
           imageRepository: dhis2/instance-inspector
         useHelmSecrets: true
         valuesFiles:
-          - helm/data/secrets/feature/instance-inspector.yaml
-          - helm/data/values/feature/instance-inspector.yaml
-        # TODO: Retrieve feature tag from env - https://skaffold.dev/docs/references/yaml/#deploy-helm-releases-setValueTemplates
-        setValues:
-          rabbitMq.host: rabbitmq-snapshot.instance-manager-feature.svc.cluster.local
+          - helm/data/secrets/{{ .ENVIRONMENT }}/instance-inspector.yaml
+          - helm/data/values/{{ .ENVIRONMENT }}/instance-inspector.yaml
+
+      - name: im-manager-rabbitmq-{{ .ENVIRONMENT }}
+        namespace: instance-manager-{{ .ENVIRONMENT }}
+        createNamespace: true
+        remoteChart: rabbitmq
+        repo: https://charts.bitnami.com/bitnami
+        #        version: ???
+        useHelmSecrets: true
+        valuesFiles:
+          - helm/data/secrets/{{ .ENVIRONMENT }}/rabbitmq.yaml
