@@ -28,9 +28,9 @@ func (t ttlWarningHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL Advice handler invoked: %s", pod.Name)
 	ttl := pod.Labels["dhis2-ttl"]
 	if ttl != "" &&
-		t.shouldWarn(ttl, 48*time.Hour) ||
-		t.shouldWarn(ttl, 24*time.Hour) ||
-		t.shouldWarn(ttl, 1*time.Hour) {
+		(t.shouldWarn(ttl, 48*time.Hour) ||
+			t.shouldWarn(ttl, 24*time.Hour) ||
+			t.shouldWarn(ttl, 1*time.Hour)) {
 
 		id, err := strconv.ParseUint(pod.Labels["dhis2-id"], 10, 64)
 		if err != nil {

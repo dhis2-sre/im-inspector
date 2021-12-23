@@ -8,3 +8,7 @@ deployableNamespaces:
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-instance-inspector-dev
+
+rabbitMq:
+  host: im-manager-rabbitmq-dev.instance-manager-dev.svc.cluster.local
+  port: 5672

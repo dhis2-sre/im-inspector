@@ -27,7 +27,6 @@ func (t ttlDestroyHandler) Supports() string {
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
 	ttl := pod.Labels["dhis2-ttl"]
-	log.Printf("!!!!!TTL: \"%s\"", ttl)
 	if ttl != "" && t.ttlBeforeNow(ttl) {
 		id, err := strconv.ParseUint(pod.Labels["dhis2-id"], 10, 64)
 		if err != nil {
