@@ -26,9 +26,9 @@ releases:
     installed: {{ .Values.instanceInspector.installed }}
     kubeContext: {{ .Values.kubeContext }}
     secrets:
-      - helm/data/secrets/{{ .Environment.Name }}/instance-inspector.yaml
+      - helm/data/secrets/{{ .Environment.Name }}/values.yaml
     values:
-      - helm/data/values/{{ .Environment.Name }}/instance-inspector.yaml
+      - helm/data/values/{{ .Environment.Name }}/values.yaml
 {{- if eq .Environment.Name "feature" }}
     set:
       - name: rabbitMq.host

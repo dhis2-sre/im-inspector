@@ -35,9 +35,4 @@ test: clean
 clean:
 	$(clean-cmd)
 
-# TODO: This is currently needed by the cicd workflows. This application is built using the workflow initially designed for instance-manager-api
-keys:
-	echo "no keys needed"
-	touch rsa_private.pem
-
-.PHONY: build-image push-image di build-dev launch-dev build-test test clean keys
+.PHONY: build-image push-image di build-dev launch-dev build-test test clean
