@@ -1,6 +1,6 @@
 package main
 
-import "github.com/dhis2-sre/instance-inspector/pgk/di"
+import "github.com/dhis2-sre/im-inspector/pgk/di"
 
 func main() {
 	environment := di.GetEnvironment()

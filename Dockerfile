@@ -9,12 +9,12 @@ RUN go get github.com/cespare/reflex
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o /app/instance-inspector ./cmd/inspect
+RUN go build -o /app/im-inspector ./cmd/inspect
 
 FROM alpine:3.13
 RUN apk --no-cache -U upgrade
 COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
-COPY --from=build /app/instance-inspector .
+COPY --from=build /app/im-inspector .
 USER guest
-CMD ["/app/instance-inspector"]
+CMD ["/app/im-inspector"]

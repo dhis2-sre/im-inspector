@@ -17,7 +17,7 @@ jobs:
     uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@master
     with:
       RUN_PID_1_TEST: false
-      PROCESS_NAME: instance-inspector
+      PROCESS_NAME: im-inspector
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

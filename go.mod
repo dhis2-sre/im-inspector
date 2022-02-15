@@ -1,4 +1,4 @@
-module github.com/dhis2-sre/instance-inspector
+module github.com/dhis2-sre/im-inspector
 
 go 1.16
 

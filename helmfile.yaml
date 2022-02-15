@@ -4,19 +4,19 @@ environments:
       - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
-          name: instance-inspector-dev
+          name: im-inspector-dev
   prod:
     values:
       - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
-          name: instance-inspector-prod
+          name: im-inspector-prod
   feature:
     values:
       - kubeContext: eks_instance-cluster-test
       - instanceInspector:
           installed: true
-          name: instance-inspector-feat{{ env "FEATURE_TAG" | lower | default "feature" }}
+          name: im-inspector-feat{{ env "FEATURE_TAG" | lower | default "feature" }}
 
 releases:
   - name: {{ .Values.instanceInspector.name }}

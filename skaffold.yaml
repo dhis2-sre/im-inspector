@@ -6,7 +6,7 @@ build:
 deploy:
   helm:
     releases:
-      - name: instance-inspector-{{ .ENVIRONMENT }}
+      - name: im-inspector-{{ .ENVIRONMENT }}
         namespace: instance-manager-{{ .ENVIRONMENT }}
         chartPath: helm/chart
         artifactOverrides:

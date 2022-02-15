@@ -1,9 +1,9 @@
 package inspector
 
 import (
-	"github.com/dhis2-sre/instance-inspector/pgk/cluster"
-	"github.com/dhis2-sre/instance-inspector/pgk/config"
-	"github.com/dhis2-sre/instance-inspector/pgk/handler"
+	"github.com/dhis2-sre/im-inspector/pgk/cluster"
+	"github.com/dhis2-sre/im-inspector/pgk/config"
+	"github.com/dhis2-sre/im-inspector/pgk/handler"
 	"log"
 	"strings"
 )
@@ -17,7 +17,7 @@ func ProvideInspector(handlers []handler.PodHandler, configuration config.Config
 }
 
 type inspector struct {
-	handlers []handler.PodHandler
+	handlers      []handler.PodHandler
 	configuration config.Configuration
 }
 

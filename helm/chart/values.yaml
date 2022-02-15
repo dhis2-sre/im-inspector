@@ -1,4 +1,4 @@
-# Default values for instance-inspector.
+# Default values for im-inspector.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -14,7 +14,7 @@ rabbitMq:
 
 schedule: "*/5 * * * *"
 
-imageRepository: dhis2/instance-inspector
+imageRepository: dhis2/im-inspector
 imagePullPolicy: IfNotPresent
 
 imagePullSecrets: []
