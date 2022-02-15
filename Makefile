@@ -1,7 +1,7 @@
 tag ?= latest
 clean-cmd = docker compose down --remove-orphans --volumes
 
-prod-image:
+docker-image:
 	IMAGE_TAG=$(tag) docker compose build prod
 
 smoke-test:
@@ -16,7 +16,7 @@ smoke-test:
 build-dev-image:
 	IMAGE_TAG=$(tag) docker compose build dev
 
-push-prod:
+push-docker-image:
 	IMAGE_TAG=$(tag) docker compose push prod
 
 di:
