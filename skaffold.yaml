@@ -16,7 +16,7 @@ deploy:
           - helm/data/secrets/{{ .ENVIRONMENT }}/values.yaml
           - helm/data/values/{{ .ENVIRONMENT }}/values.yaml
 
-      - name: im-manager-rabbitmq-{{ .ENVIRONMENT }}
+      - name: im-rabbitmq-{{ .ENVIRONMENT }}
         namespace: instance-manager-{{ .ENVIRONMENT }}
         createNamespace: true
         remoteChart: rabbitmq
