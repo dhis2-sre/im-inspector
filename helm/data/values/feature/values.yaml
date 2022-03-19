@@ -3,7 +3,6 @@ image:
 
 deployableNamespaces:
   - whoami
-  - whoami-dev
 
 serviceAccount:
   annotations:
