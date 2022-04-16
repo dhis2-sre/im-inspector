@@ -1,0 +1,13 @@
+image:
+  pullPolicy: Always
+
+deployableNamespaces:
+  - whoami
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-instance-inspector-ivo
+
+rabbitMq:
+  host: im-manager-rabbitmq-ivo.instance-manager-ivo.svc.cluster.local
+  port: 5672

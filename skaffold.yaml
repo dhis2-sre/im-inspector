@@ -1,5 +1,7 @@
 apiVersion: skaffold/v2beta25
 kind: Config
+metadata:
+  name: im-inspector
 build:
   artifacts:
     - image: dhis2/instance-inspector
