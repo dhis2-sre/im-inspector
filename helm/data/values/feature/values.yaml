@@ -6,7 +6,7 @@ deployableNamespaces:
 
 serviceAccount:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-instance-inspector-feature
+    eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-feature
 
 rabbitMq:
   host: im-manager-rabbitmq-feature.instance-manager-feature.svc.cluster.local
