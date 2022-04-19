@@ -7,7 +7,7 @@ RUN wget -O aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/
 WORKDIR /src
 RUN go get github.com/cespare/reflex
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod download -x
 COPY . .
 RUN go build -o /app/im-inspector ./cmd/inspect
 
