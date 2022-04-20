@@ -17,4 +17,4 @@ COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
 COPY --from=build /app/im-inspector .
 USER guest
-CMD ["/app/im-inspector"]
+ENTRYPOINT ["/app/im-inspector"]
