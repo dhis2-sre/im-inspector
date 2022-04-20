@@ -11,7 +11,7 @@ RUN go mod download -x
 COPY . .
 RUN go build -o /app/im-inspector ./cmd/inspect
 
-FROM alpine:3.13
+FROM alpine:3.15
 RUN apk --no-cache -U upgrade
 COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
