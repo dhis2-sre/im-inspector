@@ -1,11 +1,12 @@
 package inspector
 
 import (
+	"log"
+	"strings"
+
 	"github.com/dhis2-sre/im-inspector/pgk/cluster"
 	"github.com/dhis2-sre/im-inspector/pgk/config"
 	"github.com/dhis2-sre/im-inspector/pgk/handler"
-	"log"
-	"strings"
 )
 
 type Inspector interface {
