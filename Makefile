@@ -1,8 +1,16 @@
 tag ?= latest
 clean-cmd = docker compose down --remove-orphans --volumes
 
+check:
+	pre-commit run --all-files --show-diff-on-failure
+
 docker-image:
 	IMAGE_TAG=$(tag) docker compose build prod
+
+init:
+	direnv allow
+	pip install pre-commit
+	pre-commit install --install-hooks --overwrite
 
 smoke-test:
 	docker compose up -d rabbitmq kubernetes
@@ -35,4 +43,4 @@ test: clean
 clean:
 	$(clean-cmd)
 
-.PHONY: build-image push-image di build-dev launch-dev build-test test clean
+.PHONY: build-image check push-image di init build-dev launch-dev build-test test clean
