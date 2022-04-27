@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/dhis2-sre/instance-queue v0.2.0
 	github.com/google/wire v0.5.0
-	k8s.io/api v0.24.0-alpha.4
+	k8s.io/api v0.25.0-alpha.0
 	k8s.io/apimachinery v0.25.0-alpha.0
 	k8s.io/client-go v0.24.0-alpha.4
 )
