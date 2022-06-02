@@ -2,8 +2,11 @@ image:
   pullPolicy: IfNotPresent
 
 deployableNamespaces:
+  - whoami
+  - dev
   - play
   - qa
+  - "meta-packages"
 
 serviceAccount:
   annotations:
