@@ -7,7 +7,7 @@ import (
 	"github.com/dhis2-sre/im-inspector/pgk/config"
 	"github.com/dhis2-sre/im-inspector/pgk/handler"
 	"github.com/dhis2-sre/im-inspector/pgk/inspector"
-	"github.com/dhis2-sre/instance-queue/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq/pgk/queue"
 	"github.com/google/wire"
 )
 

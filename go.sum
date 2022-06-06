@@ -69,8 +69,8 @@ github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ3
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dhis2-sre/instance-queue v0.2.1 h1:lajXbAzm5uzUBH4k7yqL2z/B9ewFHpeG/b9w0A/YEKE=
-github.com/dhis2-sre/instance-queue v0.2.1/go.mod h1:anYOSIzHOuttEsaMrEk9Mp7qS5sCMuJIo3Ec0SV071A=
+github.com/dhis2-sre/rabbitmq v0.2.2 h1:g9fUqjdBrpxhrC97wEpFN/+iSkvoMGtCssu37VdAkuM=
+github.com/dhis2-sre/rabbitmq v0.2.2/go.mod h1:/0KaS7VjCTf8xCh6SbXjxoy+DRe/F8j3BeCEQNS/nKQ=
 github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815/go.mod h1:WwZ+bS3ebgob9U8Nd0kOddGdZWjyMGR8Wziv+TBNwSE=
 github.com/elazarl/goproxy v0.0.0-20180725130230-947c36da3153/go.mod h1:/Zj4wYkgs4iZTTu3o/KG3Itv/qCCa8VVMlb3i9OVuzc=
 github.com/emicklei/go-restful v0.0.0-20170410110728-ff4f55a20633/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dhis2-sre/instance-queue/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq/pgk/queue"
 	v1 "k8s.io/api/core/v1"
 )
 
