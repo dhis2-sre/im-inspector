@@ -27,13 +27,13 @@ func (t ttlWarningHandler) Supports() string {
 
 func (t ttlWarningHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL Advice handler invoked: %s", pod.Name)
-	ttl := pod.Labels["dhis2-ttl"]
+	ttl := pod.Labels["im-ttl"]
 	if ttl != "" &&
 		(t.shouldWarn(ttl, 48*time.Hour) ||
 			t.shouldWarn(ttl, 24*time.Hour) ||
 			t.shouldWarn(ttl, 1*time.Hour)) {
 
-		id, err := strconv.ParseUint(pod.Labels["dhis2-id"], 10, 64)
+		id, err := strconv.ParseUint(pod.Labels["im-id"], 10, 64)
 		if err != nil {
 			return err
 		}
@@ -43,7 +43,7 @@ func (t ttlWarningHandler) Handle(pod v1.Pod) error {
 			Owner string
 		}{
 			uint(id),
-			pod.Labels["dhis2-owner"],
+			pod.Labels["im-owner"],
 		}
 		t.producer.Produce(TtlWarning, payload)
 	} else {
