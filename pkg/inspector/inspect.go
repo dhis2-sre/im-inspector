@@ -4,9 +4,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/dhis2-sre/im-inspector/pgk/cluster"
-	"github.com/dhis2-sre/im-inspector/pgk/config"
-	"github.com/dhis2-sre/im-inspector/pgk/handler"
+	"github.com/dhis2-sre/im-inspector/pkg/cluster"
+	"github.com/dhis2-sre/im-inspector/pkg/config"
+	"github.com/dhis2-sre/im-inspector/pkg/handler"
 )
 
 type Inspector interface {

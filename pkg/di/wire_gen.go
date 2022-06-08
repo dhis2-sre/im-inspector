@@ -7,9 +7,9 @@
 package di
 
 import (
-	"github.com/dhis2-sre/im-inspector/pgk/config"
-	"github.com/dhis2-sre/im-inspector/pgk/handler"
-	"github.com/dhis2-sre/im-inspector/pgk/inspector"
+	"github.com/dhis2-sre/im-inspector/pkg/config"
+	"github.com/dhis2-sre/im-inspector/pkg/handler"
+	"github.com/dhis2-sre/im-inspector/pkg/inspector"
 	"github.com/dhis2-sre/rabbitmq/pgk/queue"
 )
 
