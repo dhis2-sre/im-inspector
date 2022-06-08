@@ -16,7 +16,7 @@ func GetPods(configuration config.Configuration) ([]v1.Pod, error) {
 	client := getClient()
 
 	listOptions := metav1.ListOptions{
-		LabelSelector: "dhis2=true",
+		LabelSelector: "im=true",
 	}
 
 	var pods []v1.Pod
