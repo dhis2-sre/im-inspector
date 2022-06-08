@@ -40,7 +40,7 @@ func (i inspector) Inspect() {
 		log.Printf("Target: %s", pod.Name)
 		for label := range pod.Labels {
 			handlers, exists := handlerMap[label]
-			if exists && strings.HasPrefix(label, "dhis2-") {
+			if exists && strings.HasPrefix(label, "im-") {
 				for _, h := range handlers {
 					err := h.Handle(pod)
 					if err != nil {
