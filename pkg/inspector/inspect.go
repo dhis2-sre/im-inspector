@@ -4,31 +4,35 @@ import (
 	"log"
 	"strings"
 
-	"github.com/dhis2-sre/im-inspector/pkg/cluster"
-	"github.com/dhis2-sre/im-inspector/pkg/config"
 	"github.com/dhis2-sre/im-inspector/pkg/handler"
+	v1 "k8s.io/api/core/v1"
 )
 
-type Inspector interface {
-	Inspect()
+type Inspector struct {
+	handlers   []handler.PodHandler
+	namespaces []string
+	pods       podGetter
 }
 
-func ProvideInspector(handlers []handler.PodHandler, configuration config.Configuration) Inspector {
-	return &inspector{handlers, configuration}
+type podGetter interface {
+	Get(namespaces []string) ([]v1.Pod, error)
 }
 
-type inspector struct {
-	handlers      []handler.PodHandler
-	configuration config.Configuration
+func NewInspector(pods podGetter, namespaces []string, handlers ...handler.PodHandler) Inspector {
+	return Inspector{
+		pods:       pods,
+		handlers:   handlers,
+		namespaces: namespaces,
+	}
 }
 
-func (i inspector) Inspect() {
+func (i Inspector) Inspect() {
 	log.Println("Initializing...")
 
 	handlerMap := i.createHandlersByLabelMap()
 	log.Printf("Found %d handlers", len(i.handlers))
 
-	pods, err := cluster.GetPods(i.configuration)
+	pods, err := i.pods.Get(i.namespaces)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -53,7 +57,7 @@ func (i inspector) Inspect() {
 	log.Println("Inspection ended!")
 }
 
-func (i inspector) createHandlersByLabelMap() map[string][]handler.PodHandler {
+func (i Inspector) createHandlersByLabelMap() map[string][]handler.PodHandler {
 	handlerMap := make(map[string][]handler.PodHandler)
 	for index := 0; index < len(i.handlers); index++ {
 		key := i.handlers[index].Supports()

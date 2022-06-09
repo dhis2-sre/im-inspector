@@ -6,11 +6,11 @@ import (
 	v1 "k8s.io/api/core/v1"
 )
 
-func ProvideIdHandler() PodHandler {
+type idHandler struct{}
+
+func NewIDHandler() PodHandler {
 	return idHandler{}
 }
-
-type idHandler struct{}
 
 func (T idHandler) Supports() string {
 	return "im-id"

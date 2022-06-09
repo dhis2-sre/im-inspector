@@ -27,9 +27,6 @@ build-dev-image:
 push-docker-image:
 	IMAGE_TAG=$(tag) docker compose push prod
 
-di:
-	wire gen ./pkg/di
-
 launch-dev:
 	docker compose up dev rabbitmq
 
@@ -43,4 +40,4 @@ test: clean
 clean:
 	$(clean-cmd)
 
-.PHONY: build-image check push-image di init build-dev launch-dev build-test test clean
+.PHONY: build-image check push-image init build-dev launch-dev build-test test clean

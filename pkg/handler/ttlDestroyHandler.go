@@ -13,12 +13,12 @@ const (
 	TtlDestroy = "ttl-destroy"
 )
 
-func ProvideTTLDestroyHandler(producer *queue.Producer) PodHandler {
-	return ttlDestroyHandler{producer}
-}
-
 type ttlDestroyHandler struct {
 	producer *queue.Producer
+}
+
+func NewTTLDestroyHandler(producer *queue.Producer) PodHandler {
+	return ttlDestroyHandler{producer}
 }
 
 func (t ttlDestroyHandler) Supports() string {
