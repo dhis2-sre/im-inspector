@@ -10,11 +10,10 @@ func ProvideIdHandler() PodHandler {
 	return idHandler{}
 }
 
-type idHandler struct {
-}
+type idHandler struct{}
 
 func (T idHandler) Supports() string {
-	return "dhis2-id"
+	return "im-id"
 }
 
 func (T idHandler) Handle(pod v1.Pod) error {

@@ -22,7 +22,7 @@ type ttlDestroyHandler struct {
 }
 
 func (t ttlDestroyHandler) Supports() string {
-	return "dhis2-ttl"
+	return "im-ttl"
 }
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {

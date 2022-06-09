@@ -22,7 +22,7 @@ type ttlWarningHandler struct {
 }
 
 func (t ttlWarningHandler) Supports() string {
-	return "dhis2-ttl"
+	return "im-ttl"
 }
 
 func (t ttlWarningHandler) Handle(pod v1.Pod) error {
