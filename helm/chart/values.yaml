@@ -7,7 +7,7 @@ replicaCount: 1
 deployableNamespaces: []
 
 rabbitMq:
-  host: rabbitmq.insance-manager.svc.cluster.local
+  host: rabbitmq.instance-manager.svc.cluster.local
   port: 5672
   username: guest
   password: guest
