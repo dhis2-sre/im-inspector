@@ -9,5 +9,5 @@ serviceAccount:
     eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-instance-inspector-ivo
 
 rabbitMq:
-  host: im-manager-rabbitmq-ivo.instance-manager-ivo.svc.cluster.local
+  host: im-rabbitmq-ivo.instance-manager-ivo.svc
   port: 5672
