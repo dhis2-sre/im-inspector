@@ -28,7 +28,7 @@ push-docker-image:
 	IMAGE_TAG=$(tag) docker compose push prod
 
 di:
-	wire gen ./pgk/di
+	wire gen ./pkg/di
 
 launch-dev:
 	docker compose up dev rabbitmq
