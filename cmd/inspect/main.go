@@ -19,7 +19,10 @@ func main() {
 }
 
 func run() error {
-	config := config.New()
+	config, err := config.New()
+	if err != nil {
+		return err
+	}
 
 	pg, err := pod.NewPodGetter()
 	if err != nil {
@@ -30,7 +33,6 @@ func run() error {
 		handler.NewTTLDestroyHandler(&producer),
 		handler.NewIDHandler(),
 	)
-	inspector.Inspect()
 
-	return nil
+	return inspector.Inspect()
 }
