@@ -13,5 +13,5 @@ serviceAccount:
     eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-prod
 
 rabbitMq:
-  host: im-manager-rabbitmq-prod.instance-manager-prod.svc.cluster.local
+  host: im-rabbitmq-prod.instance-manager-prod.svc
   port: 5672

@@ -9,5 +9,5 @@ serviceAccount:
     eks.amazonaws.com/role-arn: arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-tons
 
 rabbitMq:
-  host: im-manager-rabbitmq-dev.instance-manager-dev.svc
+  host: im-rabbitmq-tons.instance-manager-tons.svc
   port: 5672
