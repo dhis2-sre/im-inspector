@@ -10,9 +10,14 @@ import (
 
 // Inspiration: https://dev.to/craicoverflow/a-no-nonsense-guide-to-environment-variables-in-go-a2f
 
-func ProvideConfiguration() Configuration {
+type Config struct {
+	DeployableNamespaces []string
+	RabbitMq             rabbitmq
+}
+
+func New() Config {
 	namespaces := requireEnv("DEPLOYABLE_NAMESPACES")
-	return Configuration{
+	return Config{
 		DeployableNamespaces: strings.Split(namespaces, ","),
 		RabbitMq: rabbitmq{
 			Host:     requireEnv("RABBITMQ_HOST"),
@@ -21,11 +26,6 @@ func ProvideConfiguration() Configuration {
 			Password: requireEnv("RABBITMQ_PASSWORD"),
 		},
 	}
-}
-
-type Configuration struct {
-	DeployableNamespaces []string
-	RabbitMq             rabbitmq
 }
 
 type rabbitmq struct {
