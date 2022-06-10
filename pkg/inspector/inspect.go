@@ -26,7 +26,7 @@ func NewInspector(pods podGetter, namespaces []string, handlers ...handler.PodHa
 	}
 }
 
-func (i Inspector) Inspect() {
+func (i Inspector) Inspect() error {
 	log.Println("Initializing...")
 
 	handlerMap := i.createHandlersByLabelMap()
@@ -34,12 +34,10 @@ func (i Inspector) Inspect() {
 
 	pods, err := i.pods.Get(i.namespaces)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
-	log.Printf("Found %d pods", len(pods))
-
-	log.Println("Inspecting...")
+	log.Printf("Inspecting %d pods\n", len(pods))
 	for _, pod := range pods {
 		log.Printf("Target: %s", pod.Name)
 		for label := range pod.Labels {
@@ -55,6 +53,8 @@ func (i Inspector) Inspect() {
 		}
 	}
 	log.Println("Inspection ended!")
+
+	return nil
 }
 
 func (i Inspector) createHandlersByLabelMap() map[string][]handler.PodHandler {
