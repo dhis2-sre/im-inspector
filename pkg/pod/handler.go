@@ -1,10 +1,10 @@
-package handler
+package pod
 
 import (
 	v1 "k8s.io/api/core/v1"
 )
 
-type PodHandler interface {
+type Handler interface {
 	Supports() string
 	Handle(pod v1.Pod) error
 }

@@ -10,11 +10,11 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-type podGetter struct {
-	client *kubernetes.Clientset
+type client struct {
+	k8s *kubernetes.Clientset
 }
 
-func NewPodGetter() (*podGetter, error) {
+func NewClient() (*client, error) {
 	kubeConfigPath, _ := os.LookupEnv("KUBE_CONFIG_FILE")
 
 	restClientConfig, err := clientcmd.BuildConfigFromFlags("", kubeConfigPath)
@@ -22,22 +22,22 @@ func NewPodGetter() (*podGetter, error) {
 		return nil, err
 	}
 
-	client, err := kubernetes.NewForConfig(restClientConfig)
+	k8s, err := kubernetes.NewForConfig(restClientConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	return &podGetter{client: client}, nil
+	return &client{k8s: k8s}, nil
 }
 
-func (pg *podGetter) Get(namespaces []string) ([]v1.Pod, error) {
+func (c *client) Get(namespaces []string) ([]v1.Pod, error) {
 	listOptions := metav1.ListOptions{
 		LabelSelector: "im=true",
 	}
 
 	var pods []v1.Pod
 	for _, namespace := range namespaces {
-		list, err := pg.client.CoreV1().Pods(namespace).List(context.TODO(), listOptions)
+		list, err := c.k8s.CoreV1().Pods(namespace).List(context.TODO(), listOptions)
 		if err != nil {
 			return nil, err
 		}

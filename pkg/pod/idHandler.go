@@ -1,4 +1,4 @@
-package handler
+package pod
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 
 type idHandler struct{}
 
-func NewIDHandler() PodHandler {
+func NewIDHandler() idHandler {
 	return idHandler{}
 }
 

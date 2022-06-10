@@ -1,15 +1,14 @@
-package inspector
+package pod
 
 import (
 	"log"
 	"strings"
 
-	"github.com/dhis2-sre/im-inspector/pkg/handler"
 	v1 "k8s.io/api/core/v1"
 )
 
 type Inspector struct {
-	handlers   []handler.PodHandler
+	handlers   []Handler
 	namespaces []string
 	pods       podGetter
 }
@@ -18,7 +17,7 @@ type podGetter interface {
 	Get(namespaces []string) ([]v1.Pod, error)
 }
 
-func NewInspector(pods podGetter, namespaces []string, handlers ...handler.PodHandler) Inspector {
+func NewInspector(pods podGetter, namespaces []string, handlers ...Handler) Inspector {
 	return Inspector{
 		pods:       pods,
 		handlers:   handlers,
@@ -55,8 +54,8 @@ func (i Inspector) Inspect() error {
 	return nil
 }
 
-func (i Inspector) createHandlersByLabelMap() map[string][]handler.PodHandler {
-	handlerMap := make(map[string][]handler.PodHandler)
+func (i Inspector) createHandlersByLabelMap() map[string][]Handler {
+	handlerMap := make(map[string][]Handler)
 	for index := 0; index < len(i.handlers); index++ {
 		key := i.handlers[index].Supports()
 		handlerMap[key] = append(handlerMap[key], i.handlers[index])
