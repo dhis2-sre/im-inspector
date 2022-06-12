@@ -17,7 +17,7 @@ func main() {
 }
 
 func run() error {
-	config, err := config.New()
+	cfg, err := config.New()
 	if err != nil {
 		return err
 	}
@@ -26,8 +26,8 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	producer := queue.ProvideProducer(config.RabbitMq.GetUrl())
-	inspector := pod.NewInspector(pc, config.DeployableNamespaces,
+	producer := queue.ProvideProducer(cfg.RabbitMq.GetUrl())
+	inspector := pod.NewInspector(pc, cfg.DeployableNamespaces,
 		pod.NewTTLDestroyHandler(&producer),
 		pod.NewIDHandler(),
 	)
