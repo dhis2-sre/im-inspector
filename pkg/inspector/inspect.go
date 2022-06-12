@@ -27,10 +27,8 @@ func NewInspector(pods podGetter, namespaces []string, handlers ...handler.PodHa
 }
 
 func (i Inspector) Inspect() error {
-	log.Println("Initializing...")
-
 	handlerMap := i.createHandlersByLabelMap()
-	log.Printf("Found %d handlers", len(i.handlers))
+	log.Printf("Found %d handlers\n", len(i.handlers))
 
 	pods, err := i.pods.Get(i.namespaces)
 	if err != nil {
