@@ -1,5 +1,4 @@
-image:
-  pullPolicy: IfNotPresent
+imagePullPolicy: IfNotPresent
 
 deployableNamespaces:
   - whoami
