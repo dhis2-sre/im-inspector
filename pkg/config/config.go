@@ -19,18 +19,22 @@ func New() (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
+
 	host, err := requireEnv("RABBITMQ_HOST")
 	if err != nil {
 		return Config{}, err
 	}
+
 	port, err := getEnvAsInt("RABBITMQ_PORT")
 	if err != nil {
 		return Config{}, err
 	}
+
 	usr, err := requireEnv("RABBITMQ_USERNAME")
 	if err != nil {
 		return Config{}, err
 	}
+
 	pw, err := requireEnv("RABBITMQ_PASSWORD")
 	if err != nil {
 		return Config{}, err

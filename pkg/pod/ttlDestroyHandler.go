@@ -1,4 +1,4 @@
-package handler
+package pod
 
 import (
 	"log"
@@ -17,7 +17,7 @@ type ttlDestroyHandler struct {
 	producer *queue.Producer
 }
 
-func NewTTLDestroyHandler(producer *queue.Producer) PodHandler {
+func NewTTLDestroyHandler(producer *queue.Producer) ttlDestroyHandler {
 	return ttlDestroyHandler{producer}
 }
 
