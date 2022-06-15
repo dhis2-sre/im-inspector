@@ -5,6 +5,8 @@ metadata:
 build:
   artifacts:
     - image: dhis2/instance-inspector
+  tagPolicy:
+    inputDigest: { }
 deploy:
   helm:
     releases:
