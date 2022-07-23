@@ -6,7 +6,7 @@ require (
 	github.com/dhis2-sre/rabbitmq v0.2.2
 	k8s.io/api v0.25.0-alpha.3
 	k8s.io/apimachinery v0.25.0-alpha.3
-	k8s.io/client-go v0.25.0-alpha.2
+	k8s.io/client-go v0.25.0-alpha.3
 )
 
 require (
