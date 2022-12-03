@@ -4,7 +4,7 @@ metadata:
   name: im-inspector
 build:
   artifacts:
-    - image: dhis2/instance-inspector
+    - image: dhis2/im-inspector
   tagPolicy:
     inputDigest: { }
 deploy:
@@ -14,7 +14,7 @@ deploy:
         namespace: instance-manager-{{ .ENVIRONMENT }}
         chartPath: helm/chart
         artifactOverrides:
-          imageRepository: dhis2/instance-inspector
+          imageRepository: dhis2/im-inspector
         useHelmSecrets: true
         valuesFiles:
           - helm/data/secrets/{{ .ENVIRONMENT }}/values.yaml

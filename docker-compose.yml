@@ -15,7 +15,7 @@ x-service: &common-dev-test
 version: "3.6"
 services:
   prod:
-    image: dhis2/instance-inspector:${IMAGE_TAG:-latest}
+    image: dhis2/im-inspector:${IMAGE_TAG:-latest}
     build: .
     env_file:
       - .env
