@@ -14,7 +14,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@v0.3.12
+    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@v0.5.0
     with:
       RUN_PID_1_TEST: false
       PROCESS_NAME: im-inspector
