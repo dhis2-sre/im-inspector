@@ -47,19 +47,19 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	return nil
 }
 
-func (t ttlDestroyHandler) ttlBeforeNow(creationTimestamp string, ttl string) bool {
-	creationTimestampInt, err := strconv.ParseInt(creationTimestamp, 10, 64)
+func (t ttlDestroyHandler) ttlBeforeNow(creationTimestampLabel string, ttlLabel string) bool {
+	creationTimestamp, err := strconv.ParseInt(creationTimestampLabel, 10, 64)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
 
-	ttlInt, err := strconv.ParseInt(ttl, 10, 64)
+	ttl, err := strconv.ParseInt(ttlLabel, 10, 64)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
 
-	ttlTime := time.Unix(creationTimestampInt+ttlInt, 0).UTC()
+	ttlTime := time.Unix(creationTimestamp+ttl, 0).UTC()
 	return ttlTime.Before(time.Now())
 }
