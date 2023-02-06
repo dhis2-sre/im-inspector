@@ -27,28 +27,39 @@ func (t ttlDestroyHandler) Supports() string {
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
+
+	creationTimestamp := pod.Labels["im-creationTimestamp"]
 	ttl := pod.Labels["im-ttl"]
-	if ttl != "" && t.ttlBeforeNow(ttl) {
+	if creationTimestamp == "" || ttl == "" {
+		log.Println("No creationTimestamp or TTL found")
+		return nil
+	}
+
+	if t.ttlBeforeNow(creationTimestamp, ttl) {
 		id, err := strconv.ParseUint(pod.Labels["im-id"], 10, 64)
 		if err != nil {
 			return err
 		}
 		payload := struct{ ID uint }{uint(id)}
 		t.producer.Produce(TtlDestroy, payload)
-	} else {
-		log.Println("No TTL found")
 	}
+
 	return nil
 }
 
-func (t ttlDestroyHandler) ttlBeforeNow(ttl string) bool {
+func (t ttlDestroyHandler) ttlBeforeNow(creationTimestamp string, ttl string) bool {
+	creationTimestampInt, err := strconv.ParseInt(creationTimestamp, 10, 64)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
 	ttlInt, err := strconv.ParseInt(ttl, 10, 64)
 	if err != nil {
 		log.Println(err)
+		return false
 	}
-	ttlTime := time.Unix(ttlInt, 0)
-	loc, _ := time.LoadLocation("UTC")
-	utc := ttlTime.In(loc)
-	now := time.Now()
-	return utc.Before(now)
+
+	ttlTime := time.Unix(creationTimestampInt+ttlInt, 0).UTC()
+	return ttlTime.Before(time.Now())
 }
