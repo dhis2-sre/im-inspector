@@ -28,7 +28,7 @@ func (t ttlDestroyHandler) Supports() string {
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
 
-	creationTimestamp := pod.Labels["im-creationTimestamp"]
+	creationTimestamp := pod.Labels["im-creation-timestamp"]
 	ttl := pod.Labels["im-ttl"]
 	if creationTimestamp == "" || ttl == "" {
 		log.Println("No creationTimestamp or TTL found")
