@@ -48,7 +48,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 }
 
 // ttlBeforeNow return if creation time + ttl < now
-// creationTimestampLabel is a unix timestamp
+// creationTimestampLabel is a unix timestamp in seconds.
 // ttlLabel is seconds
 func (t ttlDestroyHandler) ttlBeforeNow(creationTimestampLabel string, ttlLabel string) bool {
 	creationTimestamp, err := strconv.ParseInt(creationTimestampLabel, 10, 64)
