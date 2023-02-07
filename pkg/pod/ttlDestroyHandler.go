@@ -27,28 +27,42 @@ func (t ttlDestroyHandler) Supports() string {
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
+
+	creationTimestamp := pod.Labels["im-creation-timestamp"]
 	ttl := pod.Labels["im-ttl"]
-	if ttl != "" && t.ttlBeforeNow(ttl) {
+	if creationTimestamp == "" || ttl == "" {
+		log.Println("No creationTimestamp or TTL found")
+		return nil
+	}
+
+	if t.ttlBeforeNow(creationTimestamp, ttl) {
 		id, err := strconv.ParseUint(pod.Labels["im-id"], 10, 64)
 		if err != nil {
 			return err
 		}
 		payload := struct{ ID uint }{uint(id)}
 		t.producer.Produce(TtlDestroy, payload)
-	} else {
-		log.Println("No TTL found")
 	}
+
 	return nil
 }
 
-func (t ttlDestroyHandler) ttlBeforeNow(ttl string) bool {
-	ttlInt, err := strconv.ParseInt(ttl, 10, 64)
+// ttlBeforeNow returns true if the pod has expired according to its time to live.
+// creationTimestampLabel is a unix timestamp in seconds.
+// ttlLabel is the pods time-to-live in seconds.
+func (t ttlDestroyHandler) ttlBeforeNow(creationTimestampLabel string, ttlLabel string) bool {
+	creationTimestamp, err := strconv.ParseInt(creationTimestampLabel, 10, 64)
 	if err != nil {
 		log.Println(err)
+		return false
 	}
-	ttlTime := time.Unix(ttlInt, 0)
-	loc, _ := time.LoadLocation("UTC")
-	utc := ttlTime.In(loc)
-	now := time.Now()
-	return utc.Before(now)
+
+	ttl, err := strconv.ParseInt(ttlLabel, 10, 64)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	ttlTime := time.Unix(creationTimestamp+ttl, 0).UTC()
+	return ttlTime.Before(time.Now())
 }
