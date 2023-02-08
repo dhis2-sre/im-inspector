@@ -12,12 +12,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type mockQueueProducer struct{ mock.Mock }
-
-func (m *mockQueueProducer) Produce(channel queue.Channel, payload any) {
-	m.Called(channel, payload)
-}
-
 func Test_ttlDestroyHandler_Handle(t *testing.T) {
 	producer := &mockQueueProducer{}
 	handler := NewTTLDestroyHandler(producer)
@@ -56,4 +50,10 @@ func Test_ttlDestroyHandler_Handle_Destroy(t *testing.T) {
 
 	require.NoError(t, err)
 	producer.AssertExpectations(t)
+}
+
+type mockQueueProducer struct{ mock.Mock }
+
+func (m *mockQueueProducer) Produce(channel queue.Channel, payload any) {
+	m.Called(channel, payload)
 }
