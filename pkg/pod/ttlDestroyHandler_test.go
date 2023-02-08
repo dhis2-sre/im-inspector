@@ -1,14 +1,15 @@
 package pod
 
 import (
+	"strconv"
+	"testing"
+	"time"
+
 	"github.com/dhis2-sre/rabbitmq/pgk/queue"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"strconv"
-	"testing"
-	"time"
 )
 
 type mockQueueProducer struct{ mock.Mock }
