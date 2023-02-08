@@ -12,14 +12,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func Test_ttlDestroyHandler_Handle(t *testing.T) {
+func Test_TTLDestroyHandler_NotExpired(t *testing.T) {
 	producer := &mockQueueProducer{}
 	handler := NewTTLDestroyHandler(producer)
 	pod := v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
 				"im-id":                 "1",
-				"im-creation-timestamp": strconv.Itoa(int(time.Now().Add(time.Minute * 5).Unix())),
+				"im-creation-timestamp": strconv.Itoa(int(time.Now().Unix())),
 				"im-ttl":                "300",
 			},
 		},
@@ -31,16 +31,17 @@ func Test_ttlDestroyHandler_Handle(t *testing.T) {
 	producer.AssertExpectations(t)
 }
 
-func Test_ttlDestroyHandler_Handle_Destroy(t *testing.T) {
+func Test_TTLDestroyHandler_Expired(t *testing.T) {
 	producer := &mockQueueProducer{}
 	var channel queue.Channel = "ttl-destroy"
 	producer.On("Produce", channel, struct{ ID uint }{ID: 1})
 	handler := NewTTLDestroyHandler(producer)
+	tenMinutesAgo := strconv.Itoa(int(time.Now().Add(time.Minute * -10).Unix()))
 	pod := v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
 				"im-id":                 "1",
-				"im-creation-timestamp": strconv.Itoa(int(time.Now().Add(time.Minute * -5).Unix())),
+				"im-creation-timestamp": tenMinutesAgo,
 				"im-ttl":                "300",
 			},
 		},
