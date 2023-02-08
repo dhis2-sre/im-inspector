@@ -62,9 +62,9 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	return nil
 }
 
-// ttlBeforeNow return if creation time + ttl < now
-// creationTimestampLabel is a unix timestamp in seconds
-// ttlLabel is seconds
+// ttlBeforeNow returns true if the pod has expired according to its time to live.
+// creationTimestampLabel is a unix timestamp in seconds.
+// ttlLabel is the pods time-to-live in seconds.
 func (t ttlDestroyHandler) ttlBeforeNow(creationTimestamp, ttl int64) bool {
 	ttlTime := time.Unix(creationTimestamp+ttl, 0).UTC()
 	return ttlTime.Before(time.Now())
