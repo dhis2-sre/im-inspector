@@ -1,11 +1,13 @@
 package pod
 
 import (
+	"errors"
 	"log"
 	"strconv"
 	"time"
 
 	"github.com/dhis2-sre/rabbitmq/pgk/queue"
+
 	v1 "k8s.io/api/core/v1"
 )
 
@@ -13,12 +15,16 @@ const (
 	TtlDestroy = "ttl-destroy"
 )
 
-type ttlDestroyHandler struct {
-	producer *queue.Producer
+func NewTTLDestroyHandler(producer queueProducer) ttlDestroyHandler {
+	return ttlDestroyHandler{producer}
 }
 
-func NewTTLDestroyHandler(producer *queue.Producer) ttlDestroyHandler {
-	return ttlDestroyHandler{producer}
+type queueProducer interface {
+	Produce(channel queue.Channel, payload any)
+}
+
+type ttlDestroyHandler struct {
+	producer queueProducer
 }
 
 func (t ttlDestroyHandler) Supports() string {
@@ -28,11 +34,25 @@ func (t ttlDestroyHandler) Supports() string {
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	log.Printf("TTL handler invoked: %s", pod.Name)
 
-	creationTimestamp := pod.Labels["im-creation-timestamp"]
-	ttl := pod.Labels["im-ttl"]
-	if creationTimestamp == "" || ttl == "" {
-		log.Println("No creationTimestamp or TTL found")
+	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
+	if creationTimestampLabel == "" {
+		return errors.New("no creationTimestamp label found")
+	}
+
+	ttlLabel := pod.Labels["im-ttl"]
+	if ttlLabel == "" {
+		log.Println("no TTL label found")
 		return nil
+	}
+
+	creationTimestamp, err := strconv.ParseInt(creationTimestampLabel, 10, 64)
+	if err != nil {
+		return err
+	}
+
+	ttl, err := strconv.ParseInt(ttlLabel, 10, 64)
+	if err != nil {
+		return err
 	}
 
 	if t.ttlBeforeNow(creationTimestamp, ttl) {
@@ -50,19 +70,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 // ttlBeforeNow returns true if the pod has expired according to its time to live.
 // creationTimestampLabel is a unix timestamp in seconds.
 // ttlLabel is the pods time-to-live in seconds.
-func (t ttlDestroyHandler) ttlBeforeNow(creationTimestampLabel string, ttlLabel string) bool {
-	creationTimestamp, err := strconv.ParseInt(creationTimestampLabel, 10, 64)
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
-	ttl, err := strconv.ParseInt(ttlLabel, 10, 64)
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
+func (t ttlDestroyHandler) ttlBeforeNow(creationTimestamp, ttl int64) bool {
 	ttlTime := time.Unix(creationTimestamp+ttl, 0).UTC()
 	return ttlTime.Before(time.Now())
 }
