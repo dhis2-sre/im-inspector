@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	TtlDestroy = "ttl-destroy"
+	ttlDestroy = "ttl-destroy"
 )
 
 func NewTTLDestroyHandler(producer queueProducer) ttlDestroyHandler {
@@ -61,7 +61,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 			return err
 		}
 		payload := struct{ ID uint }{uint(id)}
-		t.producer.Produce(TtlDestroy, payload)
+		t.producer.Produce(ttlDestroy, payload)
 	}
 
 	return nil
