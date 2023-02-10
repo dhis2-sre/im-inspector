@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine AS build
+FROM golang:1.18-alpine3.17 AS build
 ARG REFLEX_VERSION=v0.3.1
 RUN apk add gcc musl-dev git && \
 \
@@ -12,7 +12,7 @@ RUN go mod download -x
 COPY . .
 RUN go build -o /app/im-inspector ./cmd/inspect
 
-FROM alpine:3.15
+FROM alpine:3.17
 RUN apk --no-cache -U upgrade
 COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
