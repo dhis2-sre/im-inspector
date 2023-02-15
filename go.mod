@@ -1,6 +1,6 @@
 module github.com/dhis2-sre/im-inspector
 
-go 1.18
+go 1.20
 
 require (
 	github.com/dhis2-sre/rabbitmq v0.2.2
