@@ -2,9 +2,16 @@ tag ?= latest
 clean-cmd = docker compose down --remove-orphans --volumes
 
 init:
-	direnv allow
 	pip install pre-commit
 	pre-commit install --install-hooks --overwrite
+
+	go install github.com/direnv/direnv@latest
+	direnv version
+
+	go install golang.org/x/tools/cmd/goimports@latest
+
+	go install github.com/securego/gosec/v2/cmd/gosec@latest
+	gosec --version
 
 check:
 	pre-commit run --all-files --show-diff-on-failure
