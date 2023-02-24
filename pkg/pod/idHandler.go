@@ -12,11 +12,11 @@ func NewIDHandler() idHandler {
 	return idHandler{}
 }
 
-func (T idHandler) Supports() string {
+func (h idHandler) Supports() string {
 	return "im-id"
 }
 
-func (T idHandler) Handle(pod v1.Pod) error {
+func (h idHandler) Handle(pod v1.Pod) error {
 	log.Printf("Id handler invoked: %s", pod.Name)
 	return nil
 }
