@@ -498,12 +498,12 @@ honnef.co/go/tools v0.0.1-2020.1.3/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9
 honnef.co/go/tools v0.0.1-2020.1.4/go.mod h1:X/FiERA/W4tHapMX5mGpAtMSVEeEUOyHaw9vFzvIQ3k=
 k8s.io/api v0.27.0-alpha.2 h1:0dgyAB8IUYV+d49NsYQ0RwmbZyhVMVo5eKKL/nE8oc4=
 k8s.io/api v0.27.0-alpha.2/go.mod h1:vaMBc1hEu66MsgL4gSxfoaJ7nnefwtO1yC9ZgOfWU4E=
-k8s.io/apimachinery v0.27.0-alpha.2 h1:hE3r36BDC7kYr5AFAT/G9/wnnFqlGwMxo7q8tV5T56Y=
-k8s.io/apimachinery v0.27.0-alpha.2/go.mod h1:ZMhtJx+JNGzwCUeULGdPglfsNv0/EmXTT4Inrn2tKB4=
+k8s.io/apimachinery v0.27.0-alpha.3 h1:uujqsdFrbqF+cEbqFHrkLKp+s3XxRgphTpc6Yg84qLo=
+k8s.io/apimachinery v0.27.0-alpha.3/go.mod h1:TO4higCGNMwebVSdb1XPJdXMU4kk+nmMY/cTMVCGa6M=
 k8s.io/client-go v0.27.0-alpha.2 h1:qEgwkuYKx/nzNZ4pUzagV7kcYMAPfHSXl5aMyiH701c=
 k8s.io/client-go v0.27.0-alpha.2/go.mod h1:POWf/v0OxJ4g87xTyhyQcBOcIQ/c57RuGo+TGO82uEE=
-k8s.io/klog/v2 v2.80.1 h1:atnLQ121W371wYYFawwYx1aEY2eUfs4l3J72wtgAwV4=
-k8s.io/klog/v2 v2.80.1/go.mod h1:y1WjHnz7Dj687irZUWR/WLkLc5N1YHtjLdmgWjndZn0=
+k8s.io/klog/v2 v2.90.1 h1:m4bYOKall2MmOiRaR1J+We67Do7vm9KiQVlT96lnHUw=
+k8s.io/klog/v2 v2.90.1/go.mod h1:y1WjHnz7Dj687irZUWR/WLkLc5N1YHtjLdmgWjndZn0=
 k8s.io/kube-openapi v0.0.0-20230123231816-1cb3ae25d79a h1:s6zvHjyDQX1NtVT88pvw2tddqhqY0Bz0Gbnn+yctsFU=
 k8s.io/kube-openapi v0.0.0-20230123231816-1cb3ae25d79a/go.mod h1:/BYxry62FuDzmI+i9B+X2pqfySRmSOW2ARmj5Zbqhj0=
 k8s.io/utils v0.0.0-20230209194617-a36077c30491 h1:r0BAOLElQnnFhE/ApUsg3iHdVYYPBjNSSOMowRZxxsY=
