@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/dhis2-sre/rabbitmq v0.2.2
 	github.com/stretchr/testify v1.8.4
-	k8s.io/api v0.28.0-alpha.3
+	k8s.io/api v0.28.0-alpha.4
 	k8s.io/apimachinery v0.28.0-alpha.4
 	k8s.io/client-go v0.28.0-alpha.2
 )
