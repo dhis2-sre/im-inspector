@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta25
+apiVersion: skaffold/v4beta6
 kind: Config
 metadata:
   name: im-inspector
@@ -11,21 +11,30 @@ deploy:
   helm:
     releases:
       - name: im-inspector-{{ .ENVIRONMENT }}
-        namespace: instance-manager-{{ .ENVIRONMENT }}
+        namespace: instance-manager-{{ .CLASSIFICATION }}
         chartPath: helm/chart
-        artifactOverrides:
-          imageRepository: dhis2/im-inspector
+        setValueTemplates:
+          image:
+            repository: dhis2/im-inspector
+          serviceAccount:
+            annotations:
+              "eks\\.amazonaws\\.com\\/role-arn": arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-{{ .CLASSIFICATION }}
         useHelmSecrets: true
         valuesFiles:
-          - helm/data/secrets/{{ .ENVIRONMENT }}/values.yaml
-          - helm/data/values/{{ .ENVIRONMENT }}/values.yaml
+          - helm/data/secrets/{{ .CLASSIFICATION }}/values.yaml
+          - helm/data/values/{{ .CLASSIFICATION }}/values.yaml
 
       - name: im-rabbitmq-{{ .ENVIRONMENT }}
-        namespace: instance-manager-{{ .ENVIRONMENT }}
+        namespace: instance-manager-{{ .CLASSIFICATION }}
         createNamespace: true
         remoteChart: rabbitmq
         repo: https://charts.bitnami.com/bitnami
         version: 10.3.9
         useHelmSecrets: true
         valuesFiles:
-          - helm/data/secrets/{{ .ENVIRONMENT }}/rabbitmq.yaml
+          - helm/data/secrets/{{ .CLASSIFICATION }}/rabbitmq.yaml
+
+# TODO should we use empty profiles to conform to the instance-manager reusable workflow or have a conditional in the workflow Deploy step (`if repo is im-manager ...`)?
+profiles:
+  - name: dev
+  - name: prod

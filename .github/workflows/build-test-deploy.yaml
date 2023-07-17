@@ -1,20 +1,25 @@
-name: Tests, build and deploy
+name: Build, test and deploy
 
 on:
   push:
     branches:
       - master
-      - feature/**
     tags:
       - v*.*.*
 
   pull_request:
+    types: [opened, reopened, synchronize, labeled]
 
   workflow_dispatch:
 
+# Cancel previous runs of the same workflow and PR number or branch/tag
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/instance-manager.yaml@v0.8.0
+    uses: dhis2-sre/gha-workflows/.github/workflows/im-build-test-deploy.yaml@master
     with:
       RUN_PID_1_TEST: false
       PROCESS_NAME: im-inspector
