@@ -5,9 +5,9 @@ go 1.20
 require (
 	github.com/dhis2-sre/rabbitmq v0.2.2
 	github.com/stretchr/testify v1.8.4
-	k8s.io/api v0.28.0-alpha.4
+	k8s.io/api v0.28.0-beta.0
 	k8s.io/apimachinery v0.28.0-beta.0
-	k8s.io/client-go v0.28.0-alpha.4
+	k8s.io/client-go v0.28.0-beta.0
 )
 
 require (
@@ -35,7 +35,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/oauth2 v0.6.0 // indirect
+	golang.org/x/oauth2 v0.8.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/term v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
