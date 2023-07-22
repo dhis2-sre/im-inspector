@@ -1,1 +1,1 @@
-[![Tests, build and deploy](https://github.com/dhis2-sre/im-inspector/actions/workflows/cicd.yaml/badge.svg)](https://github.com/dhis2-sre/im-inspector/actions/workflows/cicd.yaml)
+[![Tests, build and deploy](https://github.com/dhis2-sre/im-inspector/actions/workflows/build-test-deploy.yaml/badge.svg)](https://github.com/dhis2-sre/im-inspector/actions/workflows/build-test-deploy.yaml)
