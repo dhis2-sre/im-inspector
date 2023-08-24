@@ -1,9 +1,16 @@
-FROM golang:1.20-alpine3.17 AS build
+FROM golang:1.21-alpine3.18 AS build
+
+# https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/
+ARG AWS_IAM_AUTHENTICATOR_VERSION=0.6.11
+ARG AWS_IAM_AUTHENTICATOR_CHECKSUM=8593d0c5125f8fba4589008116adf12519cdafa56e1bfa6b11a277e2886fc3c8
+
+# https://github.com/cespare/reflex/releases
 ARG REFLEX_VERSION=v0.3.1
+
 RUN apk add gcc musl-dev git && \
 \
-    wget -O aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
-    echo "fe958eff955bea1499015b45dc53392a33f737630efd841cd574559cc0f41800  aws-iam-authenticator" | sha256sum -c - && \
+    wget -O aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTHENTICATOR_VERSION}/aws-iam-authenticator_${AWS_IAM_AUTHENTICATOR_VERSION}_linux_amd64 && \
+    echo "${AWS_IAM_AUTHENTICATOR_CHECKSUM}  aws-iam-authenticator" | sha256sum -c - && \
     install -o root -g root -m 0755 aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /src
 RUN go install github.com/cespare/reflex@${REFLEX_VERSION}
@@ -12,7 +19,7 @@ RUN go mod download -x
 COPY . .
 RUN go build -o /app/im-inspector ./cmd/inspect
 
-FROM alpine:3.17
+FROM alpine:3.18
 RUN apk --no-cache -U upgrade
 COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
