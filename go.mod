@@ -6,7 +6,7 @@ require (
 	github.com/dhis2-sre/rabbitmq v0.2.2
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.29.0-alpha.1
-	k8s.io/apimachinery v0.29.0-alpha.1
+	k8s.io/apimachinery v0.29.0-alpha.2
 	k8s.io/client-go v0.29.0-alpha.1
 )
 
