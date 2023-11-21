@@ -19,6 +19,8 @@ deploy:
           serviceAccount:
             annotations:
               "eks\\.amazonaws\\.com\\/role-arn": arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-{{ .CLASSIFICATION }}
+          rabbitMq:
+              host: im-rabbitmq-{{ .ENVIRONMENT }}.instance-manager-{{ .CLASSIFICATION }}.svc
         useHelmSecrets: true
         valuesFiles:
           - helm/data/secrets/{{ .CLASSIFICATION }}/values.yaml
