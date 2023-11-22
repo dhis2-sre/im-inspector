@@ -14,8 +14,7 @@ deploy:
         namespace: instance-manager-{{ .CLASSIFICATION }}
         chartPath: helm/chart
         setValueTemplates:
-          image:
-            repository: dhis2/im-inspector
+          imageRepository: dhis2/im-inspector
           serviceAccount:
             annotations:
               "eks\\.amazonaws\\.com\\/role-arn": arn:aws:iam::767224633206:role/instance-cluster-test-im-inspector-{{ .CLASSIFICATION }}
