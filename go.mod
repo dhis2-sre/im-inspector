@@ -7,7 +7,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.30.0-alpha.0
 	k8s.io/apimachinery v0.30.0-alpha.0
-	k8s.io/client-go v0.29.0-alpha.3
+	k8s.io/client-go v0.30.0-alpha.0
 )
 
 toolchain go1.21.4
