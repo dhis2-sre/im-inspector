@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dhis2-sre/rabbitmq/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq-client/pgk/queue"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	v1 "k8s.io/api/core/v1"
