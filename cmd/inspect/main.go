@@ -6,7 +6,7 @@ import (
 
 	"github.com/dhis2-sre/im-inspector/pkg/config"
 	"github.com/dhis2-sre/im-inspector/pkg/pod"
-	"github.com/dhis2-sre/rabbitmq/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq-client/pgk/queue"
 )
 
 func main() {
