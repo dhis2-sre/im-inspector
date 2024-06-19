@@ -3,6 +3,7 @@ clean-cmd = docker compose down --remove-orphans --volumes
 
 init:
 	pip install pre-commit
+	pre-commit clean
 	pre-commit install --install-hooks --overwrite
 
 	go install github.com/direnv/direnv@latest
@@ -10,11 +11,10 @@ init:
 
 	go install golang.org/x/tools/cmd/goimports@latest
 
-	go install github.com/securego/gosec/v2/cmd/gosec@latest
-	gosec --version
+	go install golang.org/x/tools/cmd/goimports@latest
 
 check:
-	pre-commit run --all-files --show-diff-on-failure
+	pre-commit run --verbose --all-files --show-diff-on-failure
 
 docker-image:
 	IMAGE_TAG=$(tag) docker compose build prod
