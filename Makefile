@@ -23,12 +23,7 @@ push-docker-image:
 	IMAGE_TAG=$(tag) docker compose push prod
 
 smoke-test:
-	docker compose up -d rabbitmq kubernetes
-	sleep 5
-	docker compose cp kubernetes:/tmp/kubernetes/k3s.yaml ./k3s.yaml
-	yq e -i ".clusters[0].cluster.server = \"https://kubernetes:6443\"" ./k3s.yaml
-	IMAGE_TAG=$(tag) docker compose up -d prod
-	docker compose logs -f prod
+	docker compose up prod
 
 test: clean
 	docker compose run --no-deps test
