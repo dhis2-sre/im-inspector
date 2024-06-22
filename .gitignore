@@ -2,6 +2,5 @@
 .env
 *.iml
 main
-k3s.yaml
 # decrypted secrets
 .dec
