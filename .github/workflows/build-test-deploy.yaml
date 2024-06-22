@@ -19,10 +19,11 @@ concurrency:
 
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/im-build-test-deploy.yaml@master
+    uses: dhis2-sre/gha-workflows/.github/workflows/im-build-test-deploy.yaml@healthcheck
     with:
       RUN_PID_1_TEST: false
       PROCESS_NAME: im-inspector
+      HEALTH_CHECK_ENDPOINT: ""
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
