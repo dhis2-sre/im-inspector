@@ -23,8 +23,6 @@ push-docker-image:
 	IMAGE_TAG=$(tag) docker compose push prod
 
 smoke-test:
-	docker compose up -d rabbitmq kubernetes
-	sleep 5
 	IMAGE_TAG=$(tag) docker compose up -d prod
 
 test: clean
