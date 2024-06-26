@@ -4,7 +4,7 @@ go 1.21.3
 
 require (
 	github.com/dhis2-sre/rabbitmq-client v0.3.1-0.20231122024131-42cee9544693
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	k8s.io/api v0.30.0-alpha.0
 	k8s.io/apimachinery v0.30.0-alpha.0
 	k8s.io/client-go v0.30.0-alpha.0
@@ -34,7 +34,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rabbitmq/amqp091-go v1.9.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/objx v0.5.1 // indirect
+	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/oauth2 v0.14.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
