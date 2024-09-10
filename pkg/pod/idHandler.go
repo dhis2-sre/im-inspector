@@ -1,15 +1,17 @@
 package pod
 
 import (
-	"log"
+	"log/slog"
 
 	v1 "k8s.io/api/core/v1"
 )
 
-type idHandler struct{}
+type idHandler struct {
+	logger *slog.Logger
+}
 
-func NewIDHandler() idHandler {
-	return idHandler{}
+func NewIDHandler(logger *slog.Logger) idHandler {
+	return idHandler{logger}
 }
 
 func (h idHandler) Supports() string {
@@ -17,6 +19,6 @@ func (h idHandler) Supports() string {
 }
 
 func (h idHandler) Handle(pod v1.Pod) error {
-	log.Printf("Id handler invoked: %s", pod.Name)
+	h.logger.Info("Id handler invoked on", "pod", pod.Name)
 	return nil
 }

@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/dhis2-sre/im-inspector/pkg/config"
 	"github.com/dhis2-sre/im-inspector/pkg/pod"
-	"github.com/dhis2-sre/rabbitmq-client/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq-client/pkg/rabbitmq"
 )
 
 func main() {
@@ -17,6 +18,8 @@ func main() {
 }
 
 func run() error {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
 	cfg, err := config.New()
 	if err != nil {
 		return err
@@ -26,10 +29,10 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	producer := queue.ProvideProducer(cfg.RabbitMq.GetUrl())
-	inspector := pod.NewInspector(pc, cfg.DeployableNamespaces,
-		pod.NewTTLDestroyHandler(&producer),
-		pod.NewIDHandler(),
+	producer := rabbitmq.ProvideProducer(logger, cfg.RabbitMq.GetUrl())
+	inspector := pod.NewInspector(logger, pc, cfg.DeployableNamespaces,
+		pod.NewTTLDestroyHandler(logger, &producer),
+		pod.NewIDHandler(logger),
 	)
 
 	return inspector.Inspect()

@@ -2,11 +2,11 @@ package pod
 
 import (
 	"errors"
-	"log"
+	"log/slog"
 	"strconv"
 	"time"
 
-	"github.com/dhis2-sre/rabbitmq-client/pgk/queue"
+	"github.com/dhis2-sre/rabbitmq-client/pkg/rabbitmq"
 
 	v1 "k8s.io/api/core/v1"
 )
@@ -15,15 +15,16 @@ const (
 	ttlDestroy = "ttl-destroy"
 )
 
-func NewTTLDestroyHandler(producer queueProducer) ttlDestroyHandler {
-	return ttlDestroyHandler{producer}
+func NewTTLDestroyHandler(logger *slog.Logger, producer queueProducer) ttlDestroyHandler {
+	return ttlDestroyHandler{logger, producer}
 }
 
 type queueProducer interface {
-	Produce(channel queue.Channel, payload any)
+	Produce(channel rabbitmq.Channel, payload any)
 }
 
 type ttlDestroyHandler struct {
+	logger   *slog.Logger
 	producer queueProducer
 }
 
@@ -32,7 +33,7 @@ func (t ttlDestroyHandler) Supports() string {
 }
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
-	log.Printf("TTL handler invoked: %s", pod.Name)
+	t.logger.Info("TTL handler invoked on", "pod", pod.Name)
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
@@ -41,7 +42,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 
 	ttlLabel := pod.Labels["im-ttl"]
 	if ttlLabel == "" {
-		log.Println("no TTL label found")
+		t.logger.Info("no TTL label found")
 		return nil
 	}
 
@@ -56,7 +57,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	}
 
 	if t.ttlBeforeNow(creationTimestamp, ttl) {
-		id, err := strconv.ParseUint(pod.Labels["im-id"], 10, 64)
+		id, err := strconv.ParseUint(pod.Labels["im-instance-id"], 10, 64)
 		if err != nil {
 			return err
 		}
