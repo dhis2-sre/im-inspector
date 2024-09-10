@@ -1,4 +1,4 @@
-FROM golang:1.22.4-alpine3.20 AS build
+FROM golang:1.23.1-alpine3.20 AS build
 
 # https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/
 ARG AWS_IAM_AUTHENTICATOR_VERSION=0.6.11
