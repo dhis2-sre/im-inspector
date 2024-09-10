@@ -2,13 +2,12 @@ x-service: &common-dev-test
   build:
     context: .
     target: build
-  working_dir: /src
-  volumes:
-    - .:/src
   env_file:
     - .env
+  volumes:
+    - .:/src
+  working_dir: /src
 
-version: "3.6"
 services:
   prod:
     image: dhis2/im-inspector:${IMAGE_TAG:-latest}
@@ -16,41 +15,39 @@ services:
     env_file:
       - .env
     volumes:
-      - ./k3s.yaml:/kubernetes/config
+      - kubernetes-config:/kubernetes
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      kubernetes:
+        condition: service_healthy
+      init-kubernetes-config:
+        condition: service_completed_successfully
 
   test:
     command: /bin/sh -c 'go test -v ./...'
     <<: *common-dev-test
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: bitnami/rabbitmq:3.13
     ports:
-      - "5672:5672"
-      - "15672:15672"
-
-  database:
-    image: postgres:13-alpine
-    ports:
-      - "5432:5432"
-    volumes:
-      - instance-manager-database:/var/lib/postgresql/data
+      - "127.0.0.1:5672:5672" # regular AMQP
+      - "127.0.0.1:15672:15672" # management UI
     environment:
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
-
-  kubernetes-init:
-    build:
-      dockerfile: Dockerfile.init
-    volumes:
-      - kubernetes-config:/tmp/kubernetes:z
-      - ./scripts/init-local.sh:/scripts/init-local.sh
-    command: /scripts/init-local.sh
-    env_file:
-      - .env
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS: true
+      RABBITMQ_DISK_FREE_ABSOLUTE_LIMIT: "100MB"
+      RABBITMQ_PLUGINS: "rabbitmq_management,rabbitmq_management_agent,rabbitmq_stream,rabbitmq_stream_management"
+    healthcheck:
+      # https://www.rabbitmq.com/docs/monitoring#stage-3
+      test: rabbitmq-diagnostics -q check_running && rabbitmq-diagnostics -q check_local_alarms
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   kubernetes:
-    image: rancher/k3s:v1.21.3-k3s1
+    image: rancher/k3s:v1.29.4-k3s1
     privileged: true
     command: server
     tmpfs:
@@ -62,16 +59,31 @@ services:
         soft: 65535
         hard: 65535
     ports:
-      - "6443:6443"
-      - "443:443"
-      - "80:80"
+      - "127.0.0.1:6443:6443" # Kubernetes API Server
     volumes:
-      - ./k3s-storage:/var/lib/rancher/k3s/storage:Z
-      - kubernetes-config:/tmp/kubernetes:z
+      - k3s-server:/var/lib/rancher/k3s
+      - kubernetes-config:/tmp/kubernetes
     environment:
       K3S_KUBECONFIG_OUTPUT: /tmp/kubernetes/k3s.yaml
       K3S_KUBECONFIG_MODE: 666
+    healthcheck:
+      test: ["CMD-SHELL", "kubectl --kubeconfig /tmp/kubernetes/k3s.yaml version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  init-kubernetes-config:
+    image: busybox
+    volumes:
+      - kubernetes-config:/tmp/kubernetes
+    working_dir: /tmp/kubernetes
+    command: >
+      sh -c "cp k3s.yaml config.yaml && sed -i 's/127.0.0.1/kubernetes/g' config.yaml"
+    depends_on:
+      kubernetes:
+        condition: service_healthy
 
 volumes:
-  instance-manager-database: { }
+  k3s-server: {}
   kubernetes-config: { }
