@@ -1,4 +1,4 @@
-FROM golang:1.21.3-alpine3.18 AS build
+FROM golang:1.22.4-alpine3.20 AS build
 
 # https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/
 ARG AWS_IAM_AUTHENTICATOR_VERSION=0.6.11
@@ -19,7 +19,7 @@ RUN go mod download -x
 COPY . .
 RUN go build -o /app/im-inspector ./cmd/inspect
 
-FROM alpine:3.18
+FROM alpine:3.20
 RUN apk --no-cache -U upgrade
 COPY --from=build /usr/bin/aws-iam-authenticator /usr/bin/aws-iam-authenticator
 WORKDIR /app
