@@ -1,6 +1,7 @@
 module github.com/dhis2-sre/im-inspector
 
-go 1.21.3
+go 1.23.0
+
 require (
 	github.com/dhis2-sre/rabbitmq-client v0.3.1-0.20231122024131-42cee9544693
 	github.com/stretchr/testify v1.9.0
@@ -8,8 +9,6 @@ require (
 	k8s.io/apimachinery v0.32.0-alpha.0
 	k8s.io/client-go v0.30.0-alpha.0
 )
-
-toolchain go1.22.5
 
 require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
