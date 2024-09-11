@@ -20,7 +20,7 @@ func Test_TTLDestroyHandler_NotExpired(t *testing.T) {
 	pod := v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
-				"im-id":                 "1",
+				"im-instance-id":        "1",
 				"im-creation-timestamp": now,
 				"im-ttl":                "300",
 			},
@@ -42,7 +42,7 @@ func Test_TTLDestroyHandler_Expired(t *testing.T) {
 	pod := v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
-				"im-id":                 "1",
+				"im-instance-id":        "1",
 				"im-creation-timestamp": tenMinutesAgo,
 				"im-ttl":                "300",
 			},
