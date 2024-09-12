@@ -20,7 +20,7 @@ func NewTTLDestroyHandler(logger *slog.Logger, producer queueProducer) ttlDestro
 }
 
 type queueProducer interface {
-	Produce(channel rabbitmq.Channel, payload any)
+	Produce(channel rabbitmq.Channel, payload any) error
 }
 
 type ttlDestroyHandler struct {
@@ -62,7 +62,10 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 			return err
 		}
 		payload := struct{ ID uint }{uint(id)}
-		t.producer.Produce(ttlDestroy, payload)
+		err = t.producer.Produce(ttlDestroy, payload)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

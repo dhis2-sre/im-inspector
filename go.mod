@@ -3,7 +3,7 @@ module github.com/dhis2-sre/im-inspector
 go 1.22.4
 
 require (
-	github.com/dhis2-sre/rabbitmq-client v0.3.3-0.20240910175845-144cbdaadc22
+	github.com/dhis2-sre/rabbitmq-client v0.3.3-0.20240912134126-335f30550b2a
 	github.com/stretchr/testify v1.9.0
 	k8s.io/api v0.32.0-alpha.0
 	k8s.io/apimachinery v0.32.0-alpha.0
