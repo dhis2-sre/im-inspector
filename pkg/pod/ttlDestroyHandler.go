@@ -33,7 +33,7 @@ func (t ttlDestroyHandler) Supports() string {
 }
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
-	t.logger.Info("TTL handler invoked on", "pod", pod.Name)
+	t.logger.Info("TTL handler invoked", "pod", pod.Name)
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
