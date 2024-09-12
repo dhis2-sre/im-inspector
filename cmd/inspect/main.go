@@ -32,7 +32,6 @@ func run() error {
 	producer := rabbitmq.ProvideProducer(logger, cfg.RabbitMq.GetUrl())
 	inspector := pod.NewInspector(logger, pc, cfg.DeployableNamespaces,
 		pod.NewTTLDestroyHandler(logger, &producer),
-		pod.NewIDHandler(logger),
 	)
 
 	return inspector.Inspect()
