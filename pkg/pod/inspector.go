@@ -51,7 +51,7 @@ func (i Inspector) Inspect() error {
 			}
 		}
 	}
-	i.logger.Info("Inspection done!")
+	i.logger.Info("Inspection done")
 
 	return nil
 }
