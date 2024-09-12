@@ -45,7 +45,7 @@ func (i Inspector) Inspect() error {
 				for _, h := range handlers {
 					err := h.Handle(pod)
 					if err != nil {
-						i.logger.Info(err.Error())
+						i.logger.Error("error handling pod", "pod", pod.Name, "namespace", pod.Namespace, "error", err.Error())
 					}
 				}
 			}
