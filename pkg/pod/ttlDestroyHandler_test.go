@@ -37,7 +37,7 @@ func Test_TTLDestroyHandler_Expired(t *testing.T) {
 	producer := &mockQueueProducer{}
 	var channel rabbitmq.Channel = "ttl-destroy"
 	producer.
-		On("Produce", channel, struct{ ID uint }{ID: 1}).
+		On("Produce", channel, mock.AnythingOfType("string"), struct{ ID uint }{ID: 1}).
 		Return(nil)
 	handler := NewTTLDestroyHandler(slog.Default(), producer)
 	tenMinutesAgo := strconv.Itoa(int(time.Now().Add(time.Minute * -10).Unix()))
@@ -59,7 +59,7 @@ func Test_TTLDestroyHandler_Expired(t *testing.T) {
 
 type mockQueueProducer struct{ mock.Mock }
 
-func (m *mockQueueProducer) Produce(channel rabbitmq.Channel, payload any) error {
-	called := m.Called(channel, payload)
+func (m *mockQueueProducer) Produce(channel rabbitmq.Channel, correlationId string, payload any) error {
+	called := m.Called(channel, correlationId, payload)
 	return called.Error(0)
 }

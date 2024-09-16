@@ -2,6 +2,7 @@ package pod
 
 import (
 	"errors"
+	"github.com/google/uuid"
 	"log/slog"
 	"strconv"
 	"time"
@@ -20,7 +21,7 @@ func NewTTLDestroyHandler(logger *slog.Logger, producer queueProducer) ttlDestro
 }
 
 type queueProducer interface {
-	Produce(channel rabbitmq.Channel, payload any) error
+	Produce(channel rabbitmq.Channel, correlationId string, payload any) error
 }
 
 type ttlDestroyHandler struct {
@@ -61,11 +62,14 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 		if err != nil {
 			return err
 		}
+
 		payload := struct{ ID uint }{uint(id)}
-		err = t.producer.Produce(ttlDestroy, payload)
+		correlationId := uuid.NewString()
+		err = t.producer.Produce(ttlDestroy, correlationId, payload)
 		if err != nil {
 			return err
 		}
+		t.logger.Info("TTL destroyed", "pod", pod.Name, "namespace", pod.Namespace, "correlationId", correlationId)
 	}
 
 	return nil
