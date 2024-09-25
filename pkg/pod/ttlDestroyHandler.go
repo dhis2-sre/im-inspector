@@ -1,7 +1,7 @@
 package pod
 
 import (
-	"errors"
+	"fmt"
 	"log/slog"
 	"strconv"
 	"time"
@@ -39,7 +39,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
-		return fmt.Errorf("failed to find label "im-creation-timestamp" on pod %q", pod.Name)
+		return fmt.Errorf("failed to find label \"im-creation-timestamp\" on pod %q", pod.Name)
 	}
 
 	ttlLabel := pod.Labels["im-ttl"]
