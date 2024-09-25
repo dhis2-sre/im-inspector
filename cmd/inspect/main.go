@@ -29,7 +29,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	producer := rabbitmq.ProvideProducer(logger, cfg.RabbitMq.GetUrl())
+	producer := rabbitmq.NewProducer(logger, cfg.RabbitMq.GetUrl())
 	inspector := pod.NewInspector(logger, pc, cfg.DeployableNamespaces,
 		pod.NewTTLDestroyHandler(logger, &producer),
 	)
