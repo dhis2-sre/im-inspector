@@ -44,7 +44,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 
 	ttlLabel := pod.Labels["im-ttl"]
 	if ttlLabel == "" {
-		t.logger.Info("no TTL label found")
+		t.logger.Info(`No TTL label "im-ttl" found`)
 		return nil
 	}
 
