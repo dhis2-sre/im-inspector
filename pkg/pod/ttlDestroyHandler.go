@@ -38,7 +38,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
-		return errors.New("no creationTimestamp label found")
+		return errors.New("failed to find creationTimestamp label")
 	}
 
 	ttlLabel := pod.Labels["im-ttl"]
