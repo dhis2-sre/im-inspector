@@ -1,12 +1,14 @@
 package pod
 
 import (
-	"errors"
-	"log"
+	"fmt"
+	"log/slog"
 	"strconv"
 	"time"
 
-	"github.com/dhis2-sre/rabbitmq-client/pgk/queue"
+	"github.com/google/uuid"
+
+	"github.com/dhis2-sre/rabbitmq-client/pkg/rabbitmq"
 
 	v1 "k8s.io/api/core/v1"
 )
@@ -15,15 +17,16 @@ const (
 	ttlDestroy = "ttl-destroy"
 )
 
-func NewTTLDestroyHandler(producer queueProducer) ttlDestroyHandler {
-	return ttlDestroyHandler{producer}
+func NewTTLDestroyHandler(logger *slog.Logger, producer queueProducer) ttlDestroyHandler {
+	return ttlDestroyHandler{logger, producer}
 }
 
 type queueProducer interface {
-	Produce(channel queue.Channel, payload any)
+	Produce(channel rabbitmq.Channel, correlationId string, payload any) error
 }
 
 type ttlDestroyHandler struct {
+	logger   *slog.Logger
 	producer queueProducer
 }
 
@@ -32,16 +35,19 @@ func (t ttlDestroyHandler) Supports() string {
 }
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
-	log.Printf("TTL handler invoked: %s", pod.Name)
+	correlationID := uuid.NewString()
+	t.logger = t.logger.With("correlationId", correlationID)
+
+	t.logger.Info("TTL handler invoked", "pod", pod.Name)
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
-		return errors.New("no creationTimestamp label found")
+		return fmt.Errorf("failed to find label \"im-creation-timestamp\" on pod %q", pod.Name)
 	}
 
 	ttlLabel := pod.Labels["im-ttl"]
 	if ttlLabel == "" {
-		log.Println("no TTL label found")
+		t.logger.Info(`No TTL label "im-ttl" found`)
 		return nil
 	}
 
@@ -56,12 +62,17 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	}
 
 	if t.ttlBeforeNow(creationTimestamp, ttl) {
-		id, err := strconv.ParseUint(pod.Labels["im-id"], 10, 64)
+		id, err := strconv.ParseUint(pod.Labels["im-instance-id"], 10, 64)
 		if err != nil {
 			return err
 		}
+
 		payload := struct{ ID uint }{uint(id)}
-		t.producer.Produce(ttlDestroy, payload)
+		err = t.producer.Produce(ttlDestroy, correlationID, payload)
+		if err != nil {
+			return err
+		}
+		t.logger.Info("TTL destroyed", "pod", pod.Name, "namespace", pod.Namespace, "correlationId", correlationID)
 	}
 
 	return nil
