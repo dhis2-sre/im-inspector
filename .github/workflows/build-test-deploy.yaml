@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   call-workflow:
-    uses: dhis2-sre/gha-workflows/.github/workflows/im-build-test-deploy.yaml@ps-a
+    uses: dhis2-sre/gha-workflows/.github/workflows/im-build-test-deploy.yaml@master
     with:
       RUN_PID_1_TEST: false
       PROCESS_NAME: im-inspector
