@@ -2,10 +2,11 @@ package pod
 
 import (
 	"errors"
-	"github.com/google/uuid"
 	"log/slog"
 	"strconv"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/dhis2-sre/rabbitmq-client/pkg/rabbitmq"
 
