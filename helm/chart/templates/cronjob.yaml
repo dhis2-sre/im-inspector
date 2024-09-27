@@ -16,6 +16,9 @@ spec:
       {{- include "im-inspector.selectorLabels" . | nindent 8 }}
     spec:
       template:
+        metadata:
+          labels:
+            {{- include "im-inspector.selectorLabels" . | nindent 12 }}
         spec:
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
