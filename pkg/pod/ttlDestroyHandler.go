@@ -36,9 +36,9 @@ func (t ttlDestroyHandler) Supports() string {
 
 func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 	correlationID := uuid.NewString()
-	t.logger = t.logger.With("correlationId", correlationID)
+	logger := t.logger.With("correlationId", correlationID)
 
-	t.logger.Info("TTL handler invoked", "pod", pod.Name)
+	logger.Info("TTL handler invoked", "pod", pod.Name)
 
 	creationTimestampLabel := pod.Labels["im-creation-timestamp"]
 	if creationTimestampLabel == "" {
@@ -47,7 +47,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 
 	ttlLabel := pod.Labels["im-ttl"]
 	if ttlLabel == "" {
-		t.logger.Info(`No TTL label "im-ttl" found`)
+		logger.Info(`No TTL label "im-ttl" found`)
 		return nil
 	}
 
@@ -72,7 +72,7 @@ func (t ttlDestroyHandler) Handle(pod v1.Pod) error {
 		if err != nil {
 			return err
 		}
-		t.logger.Info("TTL destroyed", "pod", pod.Name, "namespace", pod.Namespace, "correlationId", correlationID)
+		logger.Info("TTL destroyed", "pod", pod.Name, "namespace", pod.Namespace, "correlationId", correlationID)
 	}
 
 	return nil
