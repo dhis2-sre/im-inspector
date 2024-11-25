@@ -6,7 +6,7 @@ toolchain go1.23.2
 require (
 	github.com/dhis2-sre/rabbitmq-client v0.5.0
 	github.com/google/uuid v1.6.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	k8s.io/api v0.32.0-beta.0
 	k8s.io/apimachinery v0.32.0-beta.0
 	k8s.io/client-go v0.32.0-beta.0
