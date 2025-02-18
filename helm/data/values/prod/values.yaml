@@ -3,4 +3,8 @@ deployableNamespaces:
   - dev
   - play
   - qa
-  - "meta-packages"
+  - meta-packages
+  - android
+  - design
+  - research
+  - implement
