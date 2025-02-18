@@ -8,7 +8,7 @@ require (
 	github.com/dhis2-sre/rabbitmq-client v0.5.0
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
-	k8s.io/api v0.33.0-alpha.1
+	k8s.io/api v0.33.0-alpha.2
 	k8s.io/apimachinery v0.33.0-alpha.2
 	k8s.io/client-go v0.33.0-alpha.1
 )
